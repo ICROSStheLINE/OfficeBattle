@@ -2,55 +2,57 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float speed = 5f;
+    public float moveSpeed = 5f;
     public float mouseSensitivity = 2f;
-    public float jumpHeight = 1.5f;
-    public float gravity = -9.81f;
     
-    public Transform cameraHolder;
-
-    CharacterController controller;
-    Vector3 velocity;
-    float verticalRotation = 0f;
-
+    private Transform cameraTransform;
+    private float verticalRotation = 0f;
+    
     void Start()
     {
-        controller = GetComponent<CharacterController>();
-        Cursor.lockState = CursorLockMode.Locked;
+        SetupCamera();
     }
 
     void Update()
     {
-        Move();
-        Look();
+        BasicMovement();
+        CameraMovement();
     }
 
-    void Move()
+    void BasicMovement()
     {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        Vector3 moveDirection = Vector3.zero;
 
-        Vector3 move = transform.right * x + transform.forward * z;
-        controller.Move(move * speed * Time.deltaTime);
-
-        if (controller.isGrounded && Input.GetKeyDown(KeyCode.Space))
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-        }
-
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        if (Input.GetKey(KeyCode.W))
+            moveDirection += transform.forward;
+        if (Input.GetKey(KeyCode.S))
+            moveDirection -= transform.forward;
+        if (Input.GetKey(KeyCode.A))
+            moveDirection -= transform.right;
+        if (Input.GetKey(KeyCode.D))
+            moveDirection += transform.right;
+        
+        transform.position += moveDirection.normalized * moveSpeed * Time.deltaTime;
     }
 
-    void Look()
+    void SetupCamera()
     {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        cameraTransform = Camera.main.transform;
+    }
 
+    void CameraMovement()
+    {
+        float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivity;
+        float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
+        
+        // Rotates the PLAYER horizontally
+        transform.Rotate(Vector3.up * mouseX);
+        
+        // Rotates the CAMERA vertically
         verticalRotation -= mouseY;
         verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
-
-        cameraHolder.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
-        transform.Rotate(Vector3.up * mouseX);
+        cameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
     }
 }
