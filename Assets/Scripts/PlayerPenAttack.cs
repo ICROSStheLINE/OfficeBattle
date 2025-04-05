@@ -15,6 +15,8 @@ public class PlayerPenAttack : MonoBehaviour
 	static readonly float secondsBetweenDamageStartAndDamageEnd = secondsUntilDamageEnd - secondsUntilDamageStart;
 	static readonly float secondsBetweenDamageEndAndAnimationEnd = animationDuration - secondsUntilDamageEnd;
 	
+	bool isMidAttack = false;
+	
     void Start()
     {
         if (penContainer == null)
@@ -27,7 +29,7 @@ public class PlayerPenAttack : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown("f"))
+        if (Input.GetKeyDown("f") && !isMidAttack && (penContainer.transform.childCount > 0))
 		{
 			StartCoroutine("AttackSwing");
 		}
@@ -36,15 +38,15 @@ public class PlayerPenAttack : MonoBehaviour
 	IEnumerator AttackSwing()
 	{
 		Animator penAnim = penContainer.GetComponent<Animator>();
-		penAnim.enabled = true;
-		/*
+		BoxCollider damageHitbox = penContainer.GetComponent<BoxCollider>();
+		isMidAttack = true;
+		penAnim.SetBool("isAttacking", true);
 		yield return new WaitForSeconds(secondsUntilDamageStart);
-		// Activate Damage Hitbox
+		damageHitbox.enabled = true;
 		yield return new WaitForSeconds(secondsBetweenDamageStartAndDamageEnd);
-		// Deactivate Damage Hitbox
+		damageHitbox.enabled = false;;
 		yield return new WaitForSeconds(secondsBetweenDamageEndAndAnimationEnd);
-		*/
-		yield return new WaitForSeconds(animationDuration); // TODO: Remove this later when the damage hitbox is implemented
-		penAnim.enabled = false;
+		isMidAttack = false;
+		penAnim.SetBool("isAttacking", false);
 	}
 }
