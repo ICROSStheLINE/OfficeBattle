@@ -82,6 +82,9 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cb6a16388218b634fb631526792bb49a, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 3581837622000413021}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cb6a16388218b634fb631526792bb49a, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 3861707733370811329}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cb6a16388218b634fb631526792bb49a, type: 3}
       insertIndex: -1
@@ -92,6 +95,21 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: cb6a16388218b634fb631526792bb49a, type: 3}
   m_PrefabInstance: {fileID: 3366701184058948771}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3581837622000413021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2484163120486236658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fae27f510e3501d4391c54141075086f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageAmount: 2
+  heavyDamageAmount: 5
+  damageActive: 0
 --- !u!65 &3861707733370811329
 BoxCollider:
   m_ObjectHideFlags: 0

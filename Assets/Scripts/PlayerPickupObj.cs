@@ -5,7 +5,7 @@ public class PlayerPickupObj : MonoBehaviour
     LayerMask layerMask;
 	Transform playerPOV;
 	[SerializeField] GameObject penContainer;
-	GameObject currentlyHeldObject = null;
+	public GameObject currentlyHeldObject = null;
 
 	void Start()
 	{
