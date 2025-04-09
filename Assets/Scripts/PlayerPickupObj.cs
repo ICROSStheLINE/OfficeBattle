@@ -4,18 +4,16 @@ public class PlayerPickupObj : MonoBehaviour
 {
     LayerMask layerMask;
 	Transform playerPOV;
-	[SerializeField] GameObject penContainer;
+	GameObject penContainer;
 	public GameObject currentlyHeldObject = null;
+	GameObject rightArm;
 
 	void Start()
 	{
 		layerMask = LayerMask.GetMask("Object");
 		playerPOV = Camera.main.transform;
-		if (penContainer == null)
-		{
-			try {penContainer = transform.Find("PenContainer").gameObject;}
-			catch {Debug.Log("PlayerPickupObj.cs: Couldn't find the PenContainer gameObject!");}
-		}
+		penContainer = Camera.main.transform.Find("PenContainer").gameObject;
+		rightArm = Camera.main.transform.Find("RightArm").gameObject;
 	}
 	
 	void FixedUpdate()

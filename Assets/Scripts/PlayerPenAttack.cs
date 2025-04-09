@@ -7,7 +7,7 @@ public class PlayerPenAttack : MonoBehaviour
 	PlayerPickupObj playerPickupObj;
 	Animator penContainerAnim;
 	
-    [SerializeField] GameObject penContainer;
+    GameObject penContainer;
 	static readonly float animationDurationSpeedMultiplier = 1f;
 	static readonly float animationDuration = 0.917f / animationDurationSpeedMultiplier;
 	static readonly float animationFrames = 55f;
@@ -28,11 +28,7 @@ public class PlayerPenAttack : MonoBehaviour
     {
 		playerPickupObj = GetComponent<PlayerPickupObj>();
 		
-        if (penContainer == null)
-		{
-			try {penContainer = transform.Find("PenContainer").gameObject;}
-			catch {Debug.Log("PlayerPenAttack.cs: Couldn't find the PenContainer gameObject!");}
-		}
+        penContainer = Camera.main.transform.Find("PenContainer").gameObject;
 		penContainerAnim = penContainer.GetComponent<Animator>();
     }
 
