@@ -68,7 +68,7 @@ public class PlayerPickupObj : MonoBehaviour
 	
 	IEnumerator IncreaseWeightSlider()
 	{
-		float pickupDuration = 1f; 
+		float pickupDuration = 0.25f; 
 		float pickupFrames = 20f;
 
 		for (int frame = 0; frame <= pickupFrames; frame++)
