@@ -68,7 +68,6 @@
     <Compile Include="Assets\Scripts\IKWalkingAnim.cs" />
     <Compile Include="Assets\Scripts\Outdated\PlayerPickupObj.cs" />
     <Compile Include="Assets\Scripts\FloatingHealthBar.cs" />
-    <Compile Include="Assets\Scripts\FootDebugScript.cs" />
     <Compile Include="Assets\Scripts\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\StepManager.cs" />
     <Compile Include="Assets\Samples\Animation Rigging\1.3.0\Animation Rigging Constraint Samples\Scripts\mParent.cs" />

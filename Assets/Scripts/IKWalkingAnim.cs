@@ -9,6 +9,7 @@ public class IKWalkingAnim : MonoBehaviour
 	GameObject standingPositionGameObject;
 	Vector3 currentPosition;
 
+	[SerializeField] bool isStanding = true;
 	float stepDistanceThreshhold = 1f;
 
     void Start()
@@ -17,16 +18,21 @@ public class IKWalkingAnim : MonoBehaviour
 		standingPositionGameObject = transform.parent.gameObject.transform.Find("StandingPosition").gameObject;
 
         layerMask = LayerMask.GetMask("Terrain");
-
-		Vector3 standingPosition = standingPositionGameObject.transform.position;
-		PlaceFootOnRaycast(standingPosition + Vector3.up * 2, Vector3.down, 0);
     }
 
     void Update()
     {
-		Vector3 rayPosition = rayPositionGameObject.transform.position;
+		if (isStanding)
+		{
+			Vector3 standingPosition = standingPositionGameObject.transform.position;
+			PlaceFootOnRaycast(standingPosition + Vector3.up * 2, Vector3.down, 0);
+		}
+		else
+		{
+			Vector3 rayPosition = rayPositionGameObject.transform.position;
+			PlaceFootOnRaycast(rayPosition + Vector3.up * 2, Vector3.down, stepDistanceThreshhold);
+		}
 		transform.position = currentPosition;
-		PlaceFootOnRaycast(rayPosition + Vector3.up * 2, Vector3.down, stepDistanceThreshhold);
     }
 
 	void PlaceFootOnRaycast(Vector3 rayStartPos, Vector3 normalizedDirection, float stepDistanceThreshhold_)
