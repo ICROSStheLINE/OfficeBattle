@@ -29,6 +29,8 @@ public class StepManager : MonoBehaviour
         // To go around this hurdle for testing, you can make a serialized boolean
         // called "isStanding" that you can set to true whenever you want to simulate
         // what would happen if the player was not trying to move.
+
+        // COMPLETED <--
         
         // ==================================
         
