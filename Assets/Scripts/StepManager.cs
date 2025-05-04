@@ -75,6 +75,8 @@ public class StepManager : MonoBehaviour
 
         // Have the stepping animation triggered by in-game player-inputted movement
         // as opposed to a serialized variable that dictates when the player is walking.
+
+        // COMPLETED <--
     }
 
     // Update is called once per frame

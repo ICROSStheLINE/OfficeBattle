@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
     
     private Transform cameraTransform;
     private float verticalRotation = 0f;
+    public bool isWalking;
     
     void Start()
     {
@@ -22,7 +23,8 @@ public class PlayerMovement : MonoBehaviour
     void BasicMovement()
     {
         Vector3 moveDirection = Vector3.zero;
-
+        isWalking = false;
+        
         if (Input.GetKey(KeyCode.W))
             moveDirection += transform.forward;
         if (Input.GetKey(KeyCode.S))
@@ -32,6 +34,8 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
             moveDirection += transform.right;
         
+        if (moveDirection != Vector3.zero)
+            isWalking = true;
         transform.position += moveDirection.normalized * moveSpeed * Time.deltaTime;
     }
 

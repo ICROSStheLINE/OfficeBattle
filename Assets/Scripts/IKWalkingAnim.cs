@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class IKWalkingAnim : MonoBehaviour
 {
+	PlayerMovement playerMovement;
 	LayerMask layerMask;
 	GameObject rayPositionGameObject;
 	GameObject standingPositionGameObject;
 	Vector3 currentPosition;
-
-	[SerializeField] bool isStanding = true;
 	float stepDistanceThreshhold = 1f;
 
     void Start()
     {
+		playerMovement = transform.root.GetComponent<PlayerMovement>();
 		rayPositionGameObject = transform.parent.gameObject.transform.Find("rayPosition").gameObject;
 		standingPositionGameObject = transform.parent.gameObject.transform.Find("StandingPosition").gameObject;
 
@@ -22,7 +22,7 @@ public class IKWalkingAnim : MonoBehaviour
 
     void Update()
     {
-		if (isStanding)
+		if (!playerMovement.isWalking)
 		{
 			Vector3 standingPosition = standingPositionGameObject.transform.position;
 			PlaceFootOnRaycast(standingPosition + Vector3.up * 2, Vector3.down, 0);
