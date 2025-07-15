@@ -6,14 +6,14 @@ public class PlayerPickupObj : MonoBehaviour
 	Transform playerPOV;
 	GameObject penContainer;
 	public GameObject currentlyHeldObject = null;
-	GameObject rightArm;
+	//GameObject rightArm;
 
 	void Start()
 	{
 		layerMask = LayerMask.GetMask("Object");
 		playerPOV = Camera.main.transform;
 		penContainer = Camera.main.transform.Find("PenContainer").gameObject;
-		rightArm = Camera.main.transform.Find("RightArm").gameObject;
+		//rightArm = Camera.main.transform.Find("RightArm").gameObject;
 	}
 	
 	void FixedUpdate()
