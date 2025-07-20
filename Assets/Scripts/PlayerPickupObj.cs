@@ -4,7 +4,7 @@ public class PlayerPickupObj : MonoBehaviour
 {
     LayerMask layerMask;
 	Transform playerPOV;
-	GameObject penContainer;
+	[SerializeField] GameObject penContainer;
 	public GameObject currentlyHeldObject = null;
 	//GameObject rightArm;
 
@@ -12,8 +12,8 @@ public class PlayerPickupObj : MonoBehaviour
 	{
 		layerMask = LayerMask.GetMask("Object");
 		playerPOV = Camera.main.transform;
-		penContainer = Camera.main.transform.Find("PenContainer").gameObject;
 		//rightArm = Camera.main.transform.Find("RightArm").gameObject;
+		//penContainer = Camera.main.transform.Find("PenContainer").gameObject;
 	}
 	
 	void FixedUpdate()
