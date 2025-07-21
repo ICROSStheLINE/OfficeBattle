@@ -897,6 +897,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1961294480910655055, guid: ad7aea3e9af0c984399206ad57b8eefa, type: 3}
+      propertyPath: m_Weight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2838312331895494073, guid: ad7aea3e9af0c984399206ad57b8eefa, type: 3}
+      propertyPath: m_Weight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5177724032059026805, guid: ad7aea3e9af0c984399206ad57b8eefa, type: 3}
       propertyPath: m_Name
       value: normal_square_bean
