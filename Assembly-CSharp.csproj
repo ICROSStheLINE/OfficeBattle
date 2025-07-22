@@ -66,13 +66,13 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\FloatingHealthBar.cs" />
     <Compile Include="Assets\Scripts\PlayerStats.cs" />
+    <Compile Include="Assets\Scripts\LowerBodyRigController.cs" />
     <Compile Include="Assets\Scripts\DamageHitbox.cs" />
     <Compile Include="Assets\Samples\Animation Rigging\1.3.0\Animation Rigging Constraint Samples\Scripts\mParent.cs" />
     <Compile Include="Assets\Scripts\PlayerPickupObj.cs" />
     <Compile Include="Assets\Scripts\PlayerPenAttack.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Samples\Animation Rigging\1.3.0\Animation Rigging Constraint Samples\Info\Scripts\Readme.cs" />
-    <Compile Include="Assets\Scripts\NewMonoBehaviourScript.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
