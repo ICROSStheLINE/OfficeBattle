@@ -2,14 +2,18 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    PlayerStats playerStats;
+
     public float moveSpeed = 5f;
     public float mouseSensitivity = 2f;
     
     private Transform cameraTransform;
     private float verticalRotation = 0f;
-    
+    public Vector3 moveDirection;
+
     void Start()
     {
+        playerStats = GetComponent<PlayerStats>();
         SetupCamera();
     }
 
@@ -21,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
 
     void BasicMovement()
     {
-        Vector3 moveDirection = Vector3.zero;
+        moveDirection = Vector3.zero;
 
         if (Input.GetKey(KeyCode.W))
             moveDirection += transform.forward;
@@ -31,7 +35,8 @@ public class PlayerMovement : MonoBehaviour
             moveDirection -= transform.right;
         if (Input.GetKey(KeyCode.D))
             moveDirection += transform.right;
-        
+
+        playerStats.isRunning = moveDirection != Vector3.zero; // If moveDirection doesn't equal zero set isRunning in PlayerStats to true
         transform.position += moveDirection.normalized * moveSpeed * Time.deltaTime;
     }
 
