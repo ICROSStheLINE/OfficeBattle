@@ -96,12 +96,12 @@ public class PlayerPickupObj : MonoBehaviour
 			// Hand Rig
 			if (handRig.weight > 0)
 			{
-				handRig.weight -= 0.25f;
+				handRig.weight = 1f * ((i - (smoothnessFactor - i))/ smoothnessFactor);
 			}
 			// Torso Rig
 			if (torsoRig.weight > 0)
 			{
-				torsoRig.weight -= 0.15f;
+				torsoRig.weight = 1f * (i / smoothnessFactor);
 			}
 		}
 		
