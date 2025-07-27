@@ -13,7 +13,10 @@ public class PlayerPickupObj : MonoBehaviour
 	public GameObject currentlyHeldObject = null;
 	[SerializeField] GameObject torsoAimTarget;
 	[SerializeField] GameObject torsoTargetingRig;
+	[SerializeField] GameObject handPosTarget;
+	[SerializeField] GameObject handPosRig;
 	Rig torsoRig;
+	Rig handRig;
 	
 	static readonly float animationDurationSpeedMultiplier = 1f;
 	static readonly float animationDuration = 1.083f / animationDurationSpeedMultiplier;
@@ -28,6 +31,7 @@ public class PlayerPickupObj : MonoBehaviour
 		playerPOV = Camera.main.transform;
 		anim = GetComponent<Animator>();
 		torsoRig = torsoTargetingRig.GetComponent<Rig>();
+		handRig = handPosRig.GetComponent<Rig>();
 	}
 	
 	void FixedUpdate()
@@ -58,15 +62,22 @@ public class PlayerPickupObj : MonoBehaviour
 	IEnumerator HandlePickUpAnimation()
 	{
 		anim.SetBool("isPickingUpObj", true);
+		float smoothnessFactor = 20f;
 		
 		
-		// Torso rig (turning towards item)
+		// Hand Rig (reaching for item)
+		// Torso Rig (turning towards item)
+		handPosTarget.transform.position = currentlyHeldObject.transform.position;
+		handRig.weight = 0f;
 		torsoAimTarget.transform.position = currentlyHeldObject.transform.position;
 		torsoRig.weight = 0f;
-		float smoothnessFactor = 20f;
 		for (float i = 0; i < smoothnessFactor + 1; i += 1f)
 		{
 			yield return new WaitForSeconds(secondsUntilItemGrabbed / smoothnessFactor);
+			// Hand Rig
+			handPosTarget.transform.position = currentlyHeldObject.transform.position;
+			handRig.weight = 1f * (i / smoothnessFactor);
+			// Torso Rig
 			torsoAimTarget.transform.position = currentlyHeldObject.transform.position;
 			torsoRig.weight = 1f * (i / smoothnessFactor);
 		}
@@ -77,10 +88,17 @@ public class PlayerPickupObj : MonoBehaviour
 		currentlyHeldObject.transform.GetComponent<Rigidbody>().isKinematic = true;
 		currentlyHeldObject.transform.GetComponent<BoxCollider>().isTrigger = true;
 		
-		// Torso rig (turning back to normal)
+		// Hand Rig (returning back to normal)
+		// Torso Rig (returning back to normal)
 		for (float i = smoothnessFactor; i >= 0; i -= 1f)
 		{
 			yield return new WaitForSeconds(secondsBetweenItemGrabAndAnimationEnd / smoothnessFactor);
+			// Hand Rig
+			if (handRig.weight > 0)
+			{
+				handRig.weight -= 0.25f;
+			}
+			// Torso Rig
 			if (torsoRig.weight > 0)
 			{
 				torsoRig.weight -= 0.15f;
