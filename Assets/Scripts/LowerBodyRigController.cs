@@ -6,11 +6,6 @@ public class LowerBodyRigController : MonoBehaviour
 {
 	[SerializeField] GameObject lowerBodyAimTarget;
 	float targetDistance = 5f;
-	
-    void Start()
-    {
-		
-    }
 
     void Update()
     {
@@ -30,7 +25,7 @@ public class LowerBodyRigController : MonoBehaviour
         if (Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W))
 		{
 			targetPosition = targetPosition * -1;
-            targetPosition += transform.forward; // The y value is 1 and not -1 because the player will have a backwards walking animation (ty shi)
+            targetPosition += transform.forward; // The y value is forward and not backwards because the player will have a backwards walking animation (ty shi)
 		}
 		if (targetPosition == Vector3.zero)
 		{
