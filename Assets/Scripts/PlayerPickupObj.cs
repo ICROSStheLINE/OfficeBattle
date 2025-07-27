@@ -58,6 +58,9 @@ public class PlayerPickupObj : MonoBehaviour
 	IEnumerator HandlePickUpAnimation()
 	{
 		anim.SetBool("isPickingUpObj", true);
+		
+		
+		// Torso rig (turning towards item)
 		torsoAimTarget.transform.position = currentlyHeldObject.transform.position;
 		torsoRig.weight = 0f;
 		float smoothnessFactor = 20f;
@@ -74,6 +77,7 @@ public class PlayerPickupObj : MonoBehaviour
 		currentlyHeldObject.transform.GetComponent<Rigidbody>().isKinematic = true;
 		currentlyHeldObject.transform.GetComponent<BoxCollider>().isTrigger = true;
 		
+		// Torso rig (turning back to normal)
 		for (float i = smoothnessFactor; i >= 0; i -= 1f)
 		{
 			yield return new WaitForSeconds(secondsBetweenItemGrabAndAnimationEnd / smoothnessFactor);
@@ -82,6 +86,7 @@ public class PlayerPickupObj : MonoBehaviour
 				torsoRig.weight -= 0.15f;
 			}
 		}
+		
 		anim.SetBool("isPickingUpObj", false);
 	}
 	

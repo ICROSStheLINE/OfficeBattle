@@ -751,7 +751,7 @@ MonoBehaviour:
       m_Item7:
         transform: {fileID: 0}
         weight: 0
-    m_Offset: {x: 0, y: 0, z: 0}
+    m_Offset: {x: 39.23, y: 0, z: 0}
     m_MinLimit: -100
     m_MaxLimit: 100
     m_AimAxis: 4
@@ -773,7 +773,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 144666672696213426}
-  - component: {fileID: 5364423230045222436}
   - component: {fileID: 4189938878166663610}
   m_Layer: 0
   m_Name: Torso Targeting RIg
@@ -799,18 +798,6 @@ Transform:
   - {fileID: 7641466874923698484}
   m_Father: {fileID: 5517235271991687119}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5364423230045222436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8253302533674057747}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7a96722c315b7640b53f593de81bbc2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4189938878166663610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1305,6 +1292,7 @@ MonoBehaviour:
   penContainer: {fileID: 649704446978252569}
   currentlyHeldObject: {fileID: 0}
   torsoAimTarget: {fileID: 6678497280391778509}
+  torsoTargetingRig: {fileID: 8253302533674057747}
 --- !u!114 &4767359466894007510
 MonoBehaviour:
   m_ObjectHideFlags: 0
