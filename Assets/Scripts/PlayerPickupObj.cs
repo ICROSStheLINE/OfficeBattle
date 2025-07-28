@@ -62,51 +62,67 @@ public class PlayerPickupObj : MonoBehaviour
 	IEnumerator HandlePickUpAnimation()
 	{
 		anim.SetBool("isPickingUpObj", true);
-		float smoothnessFactor = 20f;
-		
-		
-		// Hand Rig (reaching for item)
-		// Torso Rig (turning towards item)
+
+		// Hand and torso rig target objects
 		handPosTarget.transform.position = currentlyHeldObject.transform.position;
-		handRig.weight = 0f;
 		torsoAimTarget.transform.position = currentlyHeldObject.transform.position;
-		torsoRig.weight = 0f;
-		for (float i = 0; i < smoothnessFactor + 1; i += 1f)
+
+		// ───────────────────────────────
+		// Phase 1: Reach for the item
+		float elapsed = 0f;
+		while (elapsed < secondsUntilItemGrabbed)
 		{
-			yield return new WaitForSeconds(secondsUntilItemGrabbed / smoothnessFactor);
-			// Hand Rig
+			elapsed += Time.deltaTime;
+			float t = Mathf.Clamp01(elapsed / secondsUntilItemGrabbed);
+
+			// SMOOTH INTERPOLATION PEAK
+			float smoothT = Mathf.SmoothStep(0f, 1f, t);
+
+			// Hand and Torso rigs
 			handPosTarget.transform.position = currentlyHeldObject.transform.position;
-			handRig.weight = 1f * (i / smoothnessFactor);
-			// Torso Rig
+			handRig.weight = smoothT;
 			torsoAimTarget.transform.position = currentlyHeldObject.transform.position;
-			torsoRig.weight = 1f * (i / smoothnessFactor);
+			torsoRig.weight = smoothT;
+
+			yield return null;
 		}
-		
-		currentlyHeldObject.transform.SetParent(penContainer.transform);
+
+		// Snap to the max rig weight just in case the math didn't add up earlier
+		handRig.weight = 1f;
+		torsoRig.weight = 1f;
+
+		// ───────────────────────────────
+		// Item goes in its container
+		currentlyHeldObject.transform.SetParent(penContainer.transform); // For now only container is penContainer (lol)
 		currentlyHeldObject.transform.localPosition = Vector3.zero;
 		currentlyHeldObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
-		currentlyHeldObject.transform.GetComponent<Rigidbody>().isKinematic = true;
-		currentlyHeldObject.transform.GetComponent<BoxCollider>().isTrigger = true;
-		
-		// Hand Rig (returning back to normal)
-		// Torso Rig (returning back to normal)
-		for (float i = smoothnessFactor; i >= 0; i -= 1f)
+		currentlyHeldObject.GetComponent<Rigidbody>().isKinematic = true;
+		currentlyHeldObject.GetComponent<BoxCollider>().isTrigger = true;
+
+		// ───────────────────────────────
+		// Phase 2: Return hand and torso to normal positions
+		elapsed = 0f;
+		while (elapsed < secondsBetweenItemGrabAndAnimationEnd)
 		{
-			yield return new WaitForSeconds(secondsBetweenItemGrabAndAnimationEnd / smoothnessFactor);
-			// Hand Rig
-			if (handRig.weight > 0)
-			{
-				handRig.weight = 1f * ((i - (smoothnessFactor - i))/ smoothnessFactor);
-			}
-			// Torso Rig
-			if (torsoRig.weight > 0)
-			{
-				torsoRig.weight = 1f * (i / smoothnessFactor);
-			}
+			elapsed += Time.deltaTime;
+			float t = Mathf.Clamp01(elapsed / secondsBetweenItemGrabAndAnimationEnd);
+
+			// Glorious smooth interpolation
+			float smoothT = Mathf.SmoothStep(1f, 0f, t);
+
+			handRig.weight = smoothT;
+			torsoRig.weight = smoothT;
+
+			yield return null;
 		}
-		
+
+		// Reset rig weights back to 0 just in case math didn't add up earlier
+		handRig.weight = 0f;
+		torsoRig.weight = 0f;
+
 		anim.SetBool("isPickingUpObj", false);
 	}
+
 	
 	void DropItem()
 	{
