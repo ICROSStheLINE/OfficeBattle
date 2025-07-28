@@ -4,35 +4,43 @@ using UnityEngine;
 
 public class LowerBodyRigController : MonoBehaviour
 {
-	[SerializeField] GameObject lowerBodyAimTarget;
-	float targetDistance = 5f;
+    [SerializeField] GameObject lowerBodyAimTarget;
+    float targetDistance = 5f;
+    float smoothSpeed = 7.5f; // Higher = snappier, Lower = smoother
 
     void Update()
     {
-		Vector3 targetPosition = Vector3.zero;
-		if (Input.GetKey(KeyCode.W))
-		{
-            targetPosition += transform.forward;
-		}
+        Vector3 inputDirection = Vector3.zero;
+
+        if (Input.GetKey(KeyCode.W))
+        {
+            inputDirection += transform.forward;
+        }
         if (Input.GetKey(KeyCode.A))
-		{
-            targetPosition += transform.right * -1;
-		}
+        {
+            inputDirection += -transform.right;
+        }
         if (Input.GetKey(KeyCode.D))
-		{
-            targetPosition += transform.right;
-		}
+        {
+            inputDirection += transform.right;
+        }
         if (Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.W))
-		{
-			targetPosition = targetPosition * -1;
-            targetPosition += transform.forward; // The y value is forward and not backwards because the player will have a backwards walking animation (ty shi)
-		}
-		if (targetPosition == Vector3.zero)
-		{
-			targetPosition = transform.forward;
-		}
-		targetPosition = targetPosition.normalized;
-		
-		lowerBodyAimTarget.transform.position = transform.position + new Vector3(targetPosition.x*targetDistance, 2, targetPosition.z*targetDistance);
+        {
+            inputDirection = -inputDirection;
+            inputDirection += transform.forward; // The value is forward and not backwards because the player will have a backwards walking animation (ty shi)
+        }
+
+        if (inputDirection == Vector3.zero) // If idling look forward ty shi
+        {
+            inputDirection = transform.forward;
+        }
+
+        inputDirection = inputDirection.normalized;
+
+        // Compute the new target world position!
+        Vector3 desiredPosition = transform.position + new Vector3(inputDirection.x * targetDistance, 2, inputDirection.z * targetDistance);
+
+        // Smoothly interpolate to new position
+        lowerBodyAimTarget.transform.position = Vector3.Lerp(lowerBodyAimTarget.transform.position, desiredPosition, Time.deltaTime * smoothSpeed);
     }
 }
