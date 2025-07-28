@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     
     private Transform cameraTransform;
     private float verticalRotation = 0f;
-    public Vector3 moveDirection;
+    [HideInInspector] public Vector3 moveDirection;
 
     void Start()
     {

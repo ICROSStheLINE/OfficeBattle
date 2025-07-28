@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 7079459335027142951}
   - component: {fileID: 8058052399303107180}
   m_Layer: 0
-  m_Name: HandPosition
+  m_Name: HandPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -194,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70b342d8ce5c2fd48b8fa3147d48d1d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Weight: 1
+  m_Weight: 0
   m_Effectors:
   - m_Transform: {fileID: 6021738780432475556}
     m_Style:
@@ -1079,7 +1079,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6021738780432475556}
   m_Layer: 0
-  m_Name: HandTarget
+  m_Name: HandPosTarget
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1439,6 +1439,8 @@ MonoBehaviour:
   currentlyHeldObject: {fileID: 0}
   torsoAimTarget: {fileID: 6678497280391778509}
   torsoTargetingRig: {fileID: 8253302533674057747}
+  handPosTarget: {fileID: 9159343816105604438}
+  handPosRig: {fileID: 3994499146615702728}
 --- !u!114 &4767359466894007510
 MonoBehaviour:
   m_ObjectHideFlags: 0
