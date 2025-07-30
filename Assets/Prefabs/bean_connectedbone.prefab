@@ -211,7 +211,7 @@ Transform:
   m_GameObject: {fileID: 1531454289607216102}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.9190636, y: 0, z: -0.56621885}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -287,7 +287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 0}
+    m_ConstrainedObject: {fileID: 6928941530044234694}
     m_SourceObjects:
       m_Length: 1
       m_Item0:
@@ -373,7 +373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 0}
+    m_ConstrainedObject: {fileID: 1548180241124353830}
     m_SourceObjects:
       m_Length: 1
       m_Item0:
@@ -439,7 +439,7 @@ Transform:
   m_GameObject: {fileID: 3495010152512637681}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.9190636, y: 0, z: -0.56621885}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -497,7 +497,7 @@ Transform:
   m_GameObject: {fileID: 3693835720241458021}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.9190636, y: 4.14, z: -0.56621885}
+  m_LocalPosition: {x: 0.006, y: 4.606, z: 0.119}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -652,7 +652,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 0}
+    m_ConstrainedObject: {fileID: 116994441692395529}
     m_SourceObjects:
       m_Length: 1
       m_Item0:
@@ -738,7 +738,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 0}
+    m_ConstrainedObject: {fileID: 2084014334261712717}
     m_SourceObjects:
       m_Length: 1
       m_Item0:
@@ -805,7 +805,7 @@ Transform:
   m_GameObject: {fileID: 5766989814251092550}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.9190636, y: 0, z: -0.56621885}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -895,9 +895,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Weight: 1
   m_Data:
-    m_Root: {fileID: 0}
-    m_Mid: {fileID: 0}
-    m_Tip: {fileID: 0}
+    m_Root: {fileID: 8722368498281193363}
+    m_Mid: {fileID: 3681634876144482828}
+    m_Tip: {fileID: 7589662148661040886}
     m_Target: {fileID: 3228913490908480750}
     m_Hint: {fileID: 0}
     m_TargetPositionWeight: 1
@@ -962,7 +962,7 @@ Transform:
   m_GameObject: {fileID: 8925584894025744130}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.9190636, y: 0, z: -0.56621885}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1215,12 +1215,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a39007f879711a9449ef54e26428d245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  penContainer: {fileID: 0}
+  penContainer: {fileID: 60735636929174005}
   currentlyHeldObject: {fileID: 0}
-  torsoAimTarget: {fileID: 0}
-  torsoTargetingRig: {fileID: 0}
-  handPosTarget: {fileID: 0}
-  handPosRig: {fileID: 0}
+  torsoAimTarget: {fileID: 712994751893183673}
+  torsoTargetingRig: {fileID: 1531454289607216102}
+  handPosTarget: {fileID: 31986053022757036}
+  handPosRig: {fileID: 8925584894025744130}
 --- !u!114 &248713470738694209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1233,7 +1233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a7260448608f194cbaaf5a862eeca02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  penContainer: {fileID: 0}
+  penContainer: {fileID: 60735636929174005}
 --- !u!95 &602226336497029363
 Animator:
   serializedVersion: 7
@@ -1307,13 +1307,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RigLayers:
-  - m_Rig: {fileID: 0}
+  - m_Rig: {fileID: 8331472181653289102}
     m_Active: 1
-  - m_Rig: {fileID: 0}
+  - m_Rig: {fileID: 1221931696482131074}
     m_Active: 1
-  - m_Rig: {fileID: 0}
+  - m_Rig: {fileID: 8954175430230179081}
     m_Active: 1
-  - m_Rig: {fileID: 0}
+  - m_Rig: {fileID: 8534688815616583841}
     m_Active: 1
   m_Effectors: []
 --- !u!4 &6639573343827871499 stripped
