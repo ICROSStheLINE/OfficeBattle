@@ -36,7 +36,8 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
             moveDirection += transform.right;
 
-        playerStats.isRunning = moveDirection != Vector3.zero; // If moveDirection doesn't equal zero set isRunning in PlayerStats to true
+        //playerStats.isRunning = moveDirection != Vector3.zero; // If moveDirection doesn't equal zero set isRunning in PlayerStats to true
+        playerStats.isRunning = true;
         transform.position += moveDirection.normalized * moveSpeed * Time.deltaTime;
     }
 

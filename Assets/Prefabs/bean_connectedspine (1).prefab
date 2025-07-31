@@ -1040,9 +1040,41 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4167416525326943395, guid: 5e829fecccedcfe45b16fdfc70faf1b4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.69872075
+      objectReference: {fileID: 0}
+    - target: {fileID: -4167416525326943395, guid: 5e829fecccedcfe45b16fdfc70faf1b4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.022392197
+      objectReference: {fileID: 0}
+    - target: {fileID: -4167416525326943395, guid: 5e829fecccedcfe45b16fdfc70faf1b4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.026882984
+      objectReference: {fileID: 0}
+    - target: {fileID: -4167416525326943395, guid: 5e829fecccedcfe45b16fdfc70faf1b4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.7145385
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e829fecccedcfe45b16fdfc70faf1b4, type: 3}
       propertyPath: m_Name
       value: bean_connectedspine (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965515412252697714, guid: 5e829fecccedcfe45b16fdfc70faf1b4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.000062342384
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965515412252697714, guid: 5e829fecccedcfe45b16fdfc70faf1b4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.000027945847
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965515412252697714, guid: 5e829fecccedcfe45b16fdfc70faf1b4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.0014182356
+      objectReference: {fileID: 0}
+    - target: {fileID: 5965515412252697714, guid: 5e829fecccedcfe45b16fdfc70faf1b4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0.999999
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
