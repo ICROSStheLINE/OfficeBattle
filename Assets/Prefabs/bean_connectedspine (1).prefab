@@ -1310,7 +1310,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8918541686262280430}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: 5e829fecccedcfe45b16fdfc70faf1b4, type: 3}
   m_Controller: {fileID: 9100000, guid: 751d8b9dafbda6a41ad44eee8dbc52be, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -1318,7 +1318,16 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage: 
+  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
+    are already bound by a Humanoid avatar. These transforms can only be changed
+    by Humanoid clips.\n\tTransform 'Bone.001'\n\tTransform 'Bone.008'\n\tTransform
+    'Bone.011'\n\tTransform 'Bone.004'\n\tTransform 'Bone'\n\tTransform 'Armature'\n\tTransform
+    'Bone.009'\n\tTransform 'Bone.006_end'\n\tTransform 'Bone.013'\n\tTransform 'Bone.005'\n\tand
+    more ...\n\tFrom animation clip 'Pickup'\n\tFrom animation clip 'RunFwd'\n\tFrom
+    animation clip 'Idle'\n\tFrom animation clip 'RunBwd'\n\tFrom animation clip
+    'Pickup'\n\tFrom animation clip 'RunFwd'\n\tFrom animation clip 'Idle'\n\tFrom
+    animation clip 'RunBwd'\n\tFrom animation clip 'Pickup'\n\tFrom animation clip
+    'RunFwd'\n\tand more ..."
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
