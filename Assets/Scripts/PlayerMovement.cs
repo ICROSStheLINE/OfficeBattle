@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float moveSpeed = 5f;
     public float mouseSensitivity = 2f;
-    
+
     private Transform cameraTransform;
     private float verticalRotation = 0f;
     [HideInInspector] public Vector3 moveDirection;
@@ -51,13 +51,26 @@ public class PlayerMovement : MonoBehaviour
     {
         float mouseX = Input.GetAxisRaw("Mouse X") * mouseSensitivity;
         float mouseY = Input.GetAxisRaw("Mouse Y") * mouseSensitivity;
-        
+
         // Rotates the PLAYER horizontally
         transform.Rotate(Vector3.up * mouseX);
-        
+
         // Rotates the CAMERA vertically
         verticalRotation -= mouseY;
         verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
         cameraTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+    }
+
+    public float GetMovementDirectionAngle()
+    {
+        return Vector3.SignedAngle(transform.right, moveDirection, Vector3.up);
+        // ^^^ If this equals -90 then the player is running straight forward.
+		// ^^^ If this equals 0 then the player is running right
+		// ^^^ If this equals 180 then the player is running left
+		// ^^^ If this equals 90 then the player is running straight backwards
+		// ^^^ If this equals -45 then the player is running forward-right
+		// ^^^ If this equals -135 then the player is running forward-left
+		// ^^^ If this equals 45 then the player is running backwards-right
+		// ^^^ If this equals 135 then the player is running backwards-left
     }
 }
