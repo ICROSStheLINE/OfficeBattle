@@ -13,21 +13,15 @@ public class MovementAnim : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         playerStats = GetComponent<PlayerStats>();
         anim = GetComponent<Animator>();
-		
-		//InvokeRepeating("LogRunDirection", 3f, 1f);
     }
 
 	void LateUpdate()
 	{
-		// anim.SetBool("isRunning", playerStats.isRunning);
-		// anim.SetFloat("runDirection", playerMovement.GetMovementDirectionAngle());
-
-		anim.SetBool("isRunning", true);
-		anim.SetFloat("runDirection", -45f);
+		Vector3 localMove = playerMovement.GetLocalMovementDirectionNormalized();
+		
+		anim.SetBool("isRunning", playerStats.isRunning);
+		
+		anim.SetFloat("runDirectionX", localMove.x, 0.1f, Time.deltaTime); // for strafing left and right
+		anim.SetFloat("runDirectionY", localMove.z, 0.1f, Time.deltaTime); // for running forward and backwards
     }
-	
-	void LogRunDirection()
-	{
-		Debug.Log(Vector3.SignedAngle(transform.right, playerMovement.moveDirection, Vector3.up));
-	}
 }

@@ -73,4 +73,18 @@ public class PlayerMovement : MonoBehaviour
 		// ^^^ If this equals 45 then the player is running backwards-right
 		// ^^^ If this equals 135 then the player is running backwards-left
     }
+	
+	public Vector3 GetLocalMovementDirectionNormalized()
+	{
+		// Convert world moveDirection into local space (relative to player facing)
+		
+		return transform.InverseTransformDirection(moveDirection.normalized);
+		
+		// If we ignore the y value for localMove...
+		// localMove being (0,1) means forward
+		// localMove being (0,-1) means backward
+		// localMove being (-1,0) means left
+		// localMove being (1,0) means right
+		// etc...
+	}
 }
