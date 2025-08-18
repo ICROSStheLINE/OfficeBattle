@@ -4,7 +4,8 @@ public class PlayerMovement : MonoBehaviour
 {
     PlayerStats playerStats;
 
-    public float moveSpeed = 5f;
+    public float forwardMoveSpeed = 10f;
+	public float backwardMoveSpeed = 5f;
     public float mouseSensitivity = 2f;
 
     private Transform cameraTransform;
@@ -37,7 +38,12 @@ public class PlayerMovement : MonoBehaviour
             moveDirection += transform.right;
 
         playerStats.isRunning = moveDirection != Vector3.zero; // If moveDirection doesn't equal zero set isRunning in PlayerStats to true
-        transform.position += moveDirection.normalized * moveSpeed * Time.deltaTime;
+
+        if (GetLocalMovementDirectionNormalized().z >= 0f) // If ur moving forward
+            transform.position += moveDirection.normalized * forwardMoveSpeed * Time.deltaTime;
+        else if (GetLocalMovementDirectionNormalized().z < 0f) // If ur moving backward
+            transform.position += moveDirection.normalized * backwardMoveSpeed * Time.deltaTime;
+		
     }
 
     void SetupCamera()

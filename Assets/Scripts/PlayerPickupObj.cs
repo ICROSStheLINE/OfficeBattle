@@ -19,9 +19,9 @@ public class PlayerPickupObj : MonoBehaviour
 	Rig handRig;
 	
 	static readonly float animationDurationSpeedMultiplier = 1f;
-	static readonly float animationDuration = 1.083f / animationDurationSpeedMultiplier;
-	static readonly float animationFrames = 65f;
-	static readonly float itemGrabbedFrame = 23f;
+	static readonly float animationDuration = 1f / animationDurationSpeedMultiplier;
+	static readonly float animationFrames = 24f;
+	static readonly float itemGrabbedFrame = 8f;
 	static readonly float secondsUntilItemGrabbed = (itemGrabbedFrame / animationFrames) * animationDuration;
 	static readonly float secondsBetweenItemGrabAndAnimationEnd = animationDuration - secondsUntilItemGrabbed;
 
