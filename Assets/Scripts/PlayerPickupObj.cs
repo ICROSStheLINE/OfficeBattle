@@ -18,6 +18,8 @@ public class PlayerPickupObj : MonoBehaviour
 	Rig torsoRig;
 	Rig handRig;
 	
+	float dogshitAimRadius = 0.5f;
+	
 	static readonly float animationDurationSpeedMultiplier = 1f;
 	static readonly float animationDuration = 1f / animationDurationSpeedMultiplier;
 	static readonly float animationFrames = 24f;
@@ -50,8 +52,9 @@ public class PlayerPickupObj : MonoBehaviour
 
 	void PickUpItem()
 	{
+		Ray ray = new Ray(playerPOV.position, playerPOV.TransformDirection(Vector3.forward));
 		RaycastHit hit;
-		if (Physics.Raycast(playerPOV.position, playerPOV.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
+		if (Physics.SphereCast(ray, dogshitAimRadius, out hit, Mathf.Infinity, layerMask))
 		{
 			currentlyHeldObject = hit.transform.gameObject;
 			StartCoroutine("HandlePickUpAnimation");
