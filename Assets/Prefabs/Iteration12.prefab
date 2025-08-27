@@ -114,7 +114,7 @@ Transform:
   m_GameObject: {fileID: 427198963798275312}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.6399999, y: 4.606, z: 6.154357}
+  m_LocalPosition: {x: 0, y: 4.19, z: 0.323}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -313,7 +313,7 @@ Transform:
   m_GameObject: {fileID: 1344317835947089966}
   serializedVersion: 2
   m_LocalRotation: {x: 0.14180784, y: -0.5199366, z: 0.82503426, w: 0.16992648}
-  m_LocalPosition: {x: 0.00103, y: 0.01015, z: 0.00186}
+  m_LocalPosition: {x: 0.00182, y: 0.01118, z: 0.00322}
   m_LocalScale: {x: 0.009999997, y: 0.010000003, z: 0.0100000035}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -1044,10 +1044,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Iteration12
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ae4fe2f0736806b4e85c00ffe298247b, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: ae4fe2f0736806b4e85c00ffe298247b, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: 128949ee2582762478c48c8a2a3b50c5, type: 2}
+      objectReference: {fileID: 9100000, guid: 444a2945861726f47990053b785b5277, type: 2}
     - target: {fileID: 5866666021909216657, guid: ae4fe2f0736806b4e85c00ffe298247b, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0
@@ -1138,7 +1142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 862771ad1151a064eb4133351575315a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  forwardMoveSpeed: 10
+  backwardMoveSpeed: 5
   mouseSensitivity: 2
   moveDirection: {x: 0, y: 0, z: 0}
 --- !u!114 &3372295319529967064
@@ -1166,11 +1171,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   penContainer: {fileID: 1344317835947089966}
-  currentlyHeldObject: {fileID: 0}
   torsoAimTarget: {fileID: 709049712178476827}
   torsoTargetingRig: {fileID: 8849760476053714820}
   handPosTarget: {fileID: 6273918694966954249}
   handPosRig: {fileID: 9214613332238084570}
+  currentlyHeldObject: {fileID: 0}
 --- !u!114 &6439635684506672503
 MonoBehaviour:
   m_ObjectHideFlags: 0
