@@ -10,7 +10,6 @@ public class PlayerPickupObj : MonoBehaviour
     LayerMask layerMask;
 	Transform playerPOV;
 	[SerializeField] GameObject penContainer;
-	public GameObject currentlyHeldObject = null;
 	[SerializeField] GameObject torsoAimTarget;
 	[SerializeField] GameObject torsoTargetingRig;
 	[SerializeField] GameObject handPosTarget;
@@ -18,7 +17,9 @@ public class PlayerPickupObj : MonoBehaviour
 	Rig torsoRig;
 	Rig handRig;
 	
+	public GameObject currentlyHeldObject = null;
 	float dogshitAimRadius = 0.5f;
+	float pickUpDistance = 3f;
 	
 	static readonly float animationDurationSpeedMultiplier = 1f;
 	static readonly float animationDuration = 1f / animationDurationSpeedMultiplier;
@@ -54,7 +55,7 @@ public class PlayerPickupObj : MonoBehaviour
 	{
 		Ray ray = new Ray(playerPOV.position, playerPOV.TransformDirection(Vector3.forward));
 		RaycastHit hit;
-		if (Physics.SphereCast(ray, dogshitAimRadius, out hit, Mathf.Infinity, layerMask))
+		if (Physics.SphereCast(ray, dogshitAimRadius, out hit, pickUpDistance, layerMask))
 		{
 			currentlyHeldObject = hit.transform.gameObject;
 			StartCoroutine("HandlePickUpAnimation");

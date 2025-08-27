@@ -5,7 +5,7 @@ public class CrosshairTarget : MonoBehaviour
 	Animator anim;
 	LayerMask layerMask;
     [SerializeField] RectTransform crosshairRectTransform;
-    float maxDistance = 100f;
+    float maxDistance = 3f;
     float smoothSpeed = 30f;
 	float dogshitAimRadius = 0.5f;
 
