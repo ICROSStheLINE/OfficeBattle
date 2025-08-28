@@ -8,11 +8,21 @@ public class MovementAnim : MonoBehaviour
     PlayerMovement playerMovement;
     Animator anim;
 
+    static readonly float animationDurationSpeedMultiplier = 1f;
+	static readonly float animationDuration = 0.833f / animationDurationSpeedMultiplier;
+	static readonly float animationFrames = 20f;
+    static readonly float framesForStep = 10f;
+    static readonly float durationForStep = animationDuration * (framesForStep / animationFrames);
+    float forwardStepDistance;
+    float backwardStepDistance;
     void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
         playerStats = GetComponent<PlayerStats>();
         anim = GetComponent<Animator>();
+
+        forwardStepDistance = playerMovement.forwardMoveSpeed * durationForStep;
+        backwardStepDistance = playerMovement.backwardMoveSpeed * durationForStep;
     }
 
 	void LateUpdate()
