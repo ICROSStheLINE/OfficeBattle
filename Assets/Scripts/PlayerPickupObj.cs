@@ -6,6 +6,7 @@ using UnityEngine.Animations.Rigging;
 public class PlayerPickupObj : MonoBehaviour
 {
 	Animator anim;
+	MovementAnim movementAnim;
 	
     LayerMask layerMask;
 	Transform playerPOV;
@@ -17,9 +18,11 @@ public class PlayerPickupObj : MonoBehaviour
 	Rig torsoRig;
 	Rig handRig;
 	
+	LayerMask humanTouchLayerMask;
+	
 	public GameObject currentlyHeldObject = null;
 	float dogshitAimRadius = 0.5f;
-	float pickUpDistance = 3f;
+	float pickUpDistance = 5f;
 	
 	static readonly float animationDurationSpeedMultiplier = 1f;
 	static readonly float animationDuration = 1f / animationDurationSpeedMultiplier;
@@ -27,6 +30,8 @@ public class PlayerPickupObj : MonoBehaviour
 	static readonly float itemGrabbedFrame = 8f;
 	static readonly float secondsUntilItemGrabbed = (itemGrabbedFrame / animationFrames) * animationDuration;
 	static readonly float secondsBetweenItemGrabAndAnimationEnd = animationDuration - secondsUntilItemGrabbed;
+	
+	bool typeshi = false;
 
 	void Start()
 	{
@@ -35,6 +40,11 @@ public class PlayerPickupObj : MonoBehaviour
 		anim = GetComponent<Animator>();
 		torsoRig = torsoTargetingRig.GetComponent<Rig>();
 		handRig = handPosRig.GetComponent<Rig>();
+		humanTouchLayerMask = LayerMask.GetMask("HumanTrigger");
+		
+		InvokeRepeating("typeshitrue", 2f, 1f);
+		
+		movementAnim = GetComponent<MovementAnim>();
 	}
 	
 	void FixedUpdate()
@@ -50,6 +60,11 @@ public class PlayerPickupObj : MonoBehaviour
 				DropItem();
 		}
 	}
+	
+	void typeshitrue()
+	{
+		typeshi = true;
+	}
 
 	void PickUpItem()
 	{
@@ -60,6 +75,16 @@ public class PlayerPickupObj : MonoBehaviour
 			currentlyHeldObject = hit.transform.gameObject;
 			StartCoroutine("HandlePickUpAnimation");
 			//Debug.Log("Selected an object!! Yippee!! \n" + "Object name: " + hit.transform.gameObject.name + "\n" + "Object distance from player: " + hit.distance);
+		}
+		
+		// Raycast for interacting with humans
+		if (Physics.SphereCast(ray, dogshitAimRadius, out hit, pickUpDistance, humanTouchLayerMask, QueryTriggerInteraction.Collide))
+		{
+			if (typeshi)
+			{
+				Debug.Log("Presumed forward step distance: " + movementAnim.forwardStepDistance + "\n" + "Distance between player and dummy: " + Vector3.Distance(transform.position, hit.transform.position) + "\n");
+				typeshi = false;
+			}
 		}
 	}
 	

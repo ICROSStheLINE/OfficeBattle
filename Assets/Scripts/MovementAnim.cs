@@ -13,8 +13,9 @@ public class MovementAnim : MonoBehaviour
 	static readonly float animationFrames = 20f;
     static readonly float framesForStep = 10f;
     static readonly float durationForStep = animationDuration * (framesForStep / animationFrames);
-    float forwardStepDistance;
-    float backwardStepDistance;
+    public float forwardStepDistance;
+    public float backwardStepDistance;
+	
     void Start()
     {
         playerMovement = GetComponent<PlayerMovement>();
