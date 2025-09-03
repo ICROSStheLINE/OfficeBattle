@@ -13,8 +13,8 @@ public class MovementAnim : MonoBehaviour
 	static readonly float animationFrames = 20f;
     static readonly float framesForStep = 10f;
     static readonly float durationForStep = animationDuration * (framesForStep / animationFrames);
-    public float forwardStepDistance;
-    public float backwardStepDistance;
+    [HideInInspector] public float forwardStepDistance;
+    [HideInInspector] public float backwardStepDistance;
 	
     void Start()
     {
