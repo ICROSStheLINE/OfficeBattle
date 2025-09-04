@@ -31,7 +31,6 @@ public class PlayerPickupObj : MonoBehaviour
 	static readonly float secondsUntilItemGrabbed = (itemGrabbedFrame / animationFrames) * animationDuration;
 	static readonly float secondsBetweenItemGrabAndAnimationEnd = animationDuration - secondsUntilItemGrabbed;
 	
-	bool typeshi = false;
 
 	void Start()
 	{
@@ -41,8 +40,6 @@ public class PlayerPickupObj : MonoBehaviour
 		torsoRig = torsoTargetingRig.GetComponent<Rig>();
 		handRig = handPosRig.GetComponent<Rig>();
 		humanTouchLayerMask = LayerMask.GetMask("HumanTrigger");
-		
-		InvokeRepeating("typeshitrue", 2f, 1f);
 		
 		movementAnim = GetComponent<MovementAnim>();
 	}
@@ -60,11 +57,6 @@ public class PlayerPickupObj : MonoBehaviour
 				DropItem();
 		}
 	}
-	
-	void typeshitrue()
-	{
-		typeshi = true;
-	}
 
 	void PickUpItem()
 	{
@@ -75,16 +67,6 @@ public class PlayerPickupObj : MonoBehaviour
 			currentlyHeldObject = hit.transform.gameObject;
 			StartCoroutine("HandlePickUpAnimation");
 			//Debug.Log("Selected an object!! Yippee!! \n" + "Object name: " + hit.transform.gameObject.name + "\n" + "Object distance from player: " + hit.distance);
-		}
-		
-		// Raycast for interacting with humans
-		if (Physics.SphereCast(ray, dogshitAimRadius, out hit, pickUpDistance, humanTouchLayerMask, QueryTriggerInteraction.Collide))
-		{
-			if (typeshi)
-			{
-				Debug.Log("Presumed forward step distance: " + movementAnim.forwardStepDistance + "\n" + "Distance between player and dummy: " + Vector3.Distance(transform.position, hit.transform.position) + "\n");
-				typeshi = false;
-			}
 		}
 	}
 	

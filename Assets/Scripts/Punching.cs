@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Punching : MonoBehaviour
 {
+    PlayerStats playerStats;
     Animator anim;
     [SerializeField] GameObject leftArm;
     [SerializeField] GameObject rightArm;
 
     bool handDamageActive = false;
     bool isMidPunch = false;
+    float dogshitAimRadius = 0.5f;
+	float pickUpDistance = 5f;
+    LayerMask humanTouchLayerMask;
 
     static readonly float runPunchAnimationDurationSpeedMultiplier = 1f;
     static readonly float runPunchAnimationDuration = 1.083f / runPunchAnimationDurationSpeedMultiplier;
@@ -23,12 +27,20 @@ public class Punching : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        playerStats = GetComponent<PlayerStats>();
+        humanTouchLayerMask = LayerMask.GetMask("HumanTrigger");
     }
     void Update()
     {
-        if (Input.GetKey("e") && !isMidPunch)
+        if (Input.GetKey(KeyCode.Mouse0) && !isMidPunch && playerStats.isRunning)
         {
-            StartCoroutine("RunningPunch");
+            Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
+		    RaycastHit hit;
+            // Raycast for interacting with humans
+            if (Physics.SphereCast(ray, dogshitAimRadius, out hit, pickUpDistance, humanTouchLayerMask, QueryTriggerInteraction.Collide))
+            {
+                StartCoroutine("RunningPunch");
+            }
         }
     }
 
