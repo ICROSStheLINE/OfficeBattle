@@ -28,14 +28,8 @@ public class PlayerMovement : MonoBehaviour
     {
         moveDirection = Vector3.zero;
 
-        if (Input.GetKey(KeyCode.W))
-            moveDirection += transform.forward;
-        if (Input.GetKey(KeyCode.S))
-            moveDirection -= transform.forward;
-        if (Input.GetKey(KeyCode.A))
-            moveDirection -= transform.right;
-        if (Input.GetKey(KeyCode.D))
-            moveDirection += transform.right;
+        if (playerStats.canMove)
+            CheckMovementInputs();
 
         playerStats.isRunning = moveDirection != Vector3.zero; // If moveDirection doesn't equal zero set isRunning in PlayerStats to true
 
@@ -44,6 +38,18 @@ public class PlayerMovement : MonoBehaviour
         else if (GetLocalMovementDirectionNormalized().z < 0f) // If ur moving backward
             transform.position += moveDirection.normalized * backwardMoveSpeed * Time.deltaTime;
 		
+    }
+
+    void CheckMovementInputs()
+    {
+        if (Input.GetKey(KeyCode.W))
+            moveDirection += transform.forward;
+        if (Input.GetKey(KeyCode.S))
+            moveDirection -= transform.forward;
+        if (Input.GetKey(KeyCode.A))
+            moveDirection -= transform.right;
+        if (Input.GetKey(KeyCode.D))
+            moveDirection += transform.right;
     }
 
     void SetupCamera()

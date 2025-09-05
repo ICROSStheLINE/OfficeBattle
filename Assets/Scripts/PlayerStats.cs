@@ -5,6 +5,7 @@ public class PlayerStats : MonoBehaviour
 	public float maxHealth = 5;
 	public float health;
 	[HideInInspector] public bool isRunning = false;
+	[HideInInspector] public bool canMove = true;
 	
     void Start()
     {

@@ -11,7 +11,7 @@ public class Punching : MonoBehaviour
     bool handDamageActive = false;
     bool isMidPunch = false;
     float dogshitAimRadius = 0.5f;
-	float pickUpDistance = 5f;
+	float pickUpDistance = 8f;
     LayerMask humanTouchLayerMask;
 
     static readonly float runPunchAnimationDurationSpeedMultiplier = 1f;
@@ -32,7 +32,7 @@ public class Punching : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKey(KeyCode.Mouse0) && !isMidPunch && playerStats.isRunning)
+        if (Input.GetKey("e") && !isMidPunch && playerStats.isRunning)
         {
             Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 		    RaycastHit hit;
@@ -48,14 +48,17 @@ public class Punching : MonoBehaviour
     {
         isMidPunch = true;
         anim.SetBool("isPunching", true);
+        playerStats.canMove = false;
 
         yield return new WaitForSeconds(secondsUntilDamageActivation);
         handDamageActive = true;
         yield return new WaitForSeconds(secondsBetweenDamageActivationAndDeactivation);
         handDamageActive = false;
         yield return new WaitForSeconds(secondsBetweenDamageDeactivationAndEnd);
+
         anim.SetBool("isPunching", false);
         isMidPunch = false;
+        playerStats.canMove = true;
     }
 
     public void DetectedCollision(GameObject dataOwner, GameObject collidedObject)
