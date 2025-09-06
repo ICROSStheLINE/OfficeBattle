@@ -5,14 +5,17 @@ public class Punching : MonoBehaviour
 {
     PlayerStats playerStats;
     Animator anim;
+	PlayerMovement playerMovement;
     [SerializeField] GameObject leftArm;
     [SerializeField] GameObject rightArm;
 
-    bool handDamageActive = false;
-    bool isMidPunch = false;
-    float dogshitAimRadius = 0.5f;
-	float pickUpDistance = 8f;
     LayerMask humanTouchLayerMask;
+    bool handDamageActive = false;
+    bool isMidRunningPunch = false;
+    float dogshitAimRadius = 0.5f;
+	float humanInteractDistance = 12f;
+	Vector3 constantPlayerMovement = default(Vector3);
+	float constantPlayerSpeed = default(float);
 
     static readonly float runPunchAnimationDurationSpeedMultiplier = 1f;
     static readonly float runPunchAnimationDuration = 1.083f / runPunchAnimationDurationSpeedMultiplier;
@@ -28,36 +31,54 @@ public class Punching : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         playerStats = GetComponent<PlayerStats>();
+		playerMovement = GetComponent<PlayerMovement>();
         humanTouchLayerMask = LayerMask.GetMask("HumanTrigger");
     }
+
     void Update()
     {
-        if (Input.GetKey("e") && !isMidPunch && playerStats.isRunning)
+		CheckForPunchInput();
+		if (constantPlayerMovement != default(Vector3))
+		{
+			playerMovement.BasicMovement(constantPlayerMovement, constantPlayerSpeed);
+		}
+    }
+
+	void CheckForPunchInput()
+	{
+        if (Input.GetKey("e") && !isMidRunningPunch && playerStats.isRunning)
         {
             Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 		    RaycastHit hit;
             // Raycast for interacting with humans
-            if (Physics.SphereCast(ray, dogshitAimRadius, out hit, pickUpDistance, humanTouchLayerMask, QueryTriggerInteraction.Collide))
+            if (Physics.SphereCast(ray, dogshitAimRadius, out hit, humanInteractDistance, humanTouchLayerMask, QueryTriggerInteraction.Collide))
             {
                 StartCoroutine("RunningPunch");
             }
         }
-    }
+	}
 
     IEnumerator RunningPunch()
     {
-        isMidPunch = true;
+        isMidRunningPunch = true;
         anim.SetBool("isPunching", true);
         playerStats.canMove = false;
+		
+		constantPlayerMovement = transform.forward;
+		constantPlayerSpeed = default(float);
 
         yield return new WaitForSeconds(secondsUntilDamageActivation);
         handDamageActive = true;
         yield return new WaitForSeconds(secondsBetweenDamageActivationAndDeactivation);
+		constantPlayerSpeed = playerMovement.forwardMoveSpeed / 4f;
         handDamageActive = false;
         yield return new WaitForSeconds(secondsBetweenDamageDeactivationAndEnd);
 
+		constantPlayerMovement = default(Vector3);
+		constantPlayerSpeed = default(float);
+		
         anim.SetBool("isPunching", false);
-        isMidPunch = false;
+        isMidRunningPunch = false;
         playerStats.canMove = true;
     }
 

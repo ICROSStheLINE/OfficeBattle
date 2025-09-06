@@ -24,9 +24,10 @@ public class PlayerMovement : MonoBehaviour
         CameraMovement();
     }
 
-    void BasicMovement()
+    public void BasicMovement(Vector3 moveDirection_ = default(Vector3), float forwardMoveSpeed_ = default(float))
     {
-        moveDirection = Vector3.zero;
+        moveDirection = moveDirection_; // Same as doing moveDirection = zero, but if a custom direction was used it'd use that
+		if (forwardMoveSpeed_ == default(float)) {forwardMoveSpeed_ = forwardMoveSpeed;} // If no custom move speed was used, use preset speed
 
         if (playerStats.canMove)
             CheckMovementInputs();
@@ -34,7 +35,7 @@ public class PlayerMovement : MonoBehaviour
         playerStats.isRunning = moveDirection != Vector3.zero; // If moveDirection doesn't equal zero set isRunning in PlayerStats to true
 
         if (GetLocalMovementDirectionNormalized().z >= 0f) // If ur moving forward
-            transform.position += moveDirection.normalized * forwardMoveSpeed * Time.deltaTime;
+            transform.position += moveDirection.normalized * forwardMoveSpeed_ * Time.deltaTime;
         else if (GetLocalMovementDirectionNormalized().z < 0f) // If ur moving backward
             transform.position += moveDirection.normalized * backwardMoveSpeed * Time.deltaTime;
 		

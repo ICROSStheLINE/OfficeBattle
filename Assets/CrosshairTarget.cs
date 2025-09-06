@@ -6,7 +6,8 @@ public class CrosshairTarget : MonoBehaviour
 	LayerMask itemPickupLayerMask;
 	LayerMask humanTouchLayerMask;
     [SerializeField] RectTransform crosshairRectTransform;
-    float maxDistance = 5f;
+    float pickUpDistance = 5f;
+	float humanInteractDistance = 12f;
     float smoothSpeed = 30f;
 	float dogshitAimRadius = 0.5f;
 
@@ -29,13 +30,13 @@ public class CrosshairTarget : MonoBehaviour
         Vector3 targetPos = screenCenter;
 
 		// Raycast for picking up objects
-        if (Physics.SphereCast(ray, dogshitAimRadius, out hit, maxDistance, itemPickupLayerMask)) {
+        if (Physics.SphereCast(ray, dogshitAimRadius, out hit, pickUpDistance, itemPickupLayerMask)) {
             targetPos = Camera.main.WorldToScreenPoint(hit.collider.transform.position);
 			anim.SetBool("HoveringItem", true);
         }
 		
 		// Raycast for interacting with humans
-		if (Physics.SphereCast(ray, dogshitAimRadius, out hit, maxDistance, humanTouchLayerMask, QueryTriggerInteraction.Collide))
+		if (Physics.SphereCast(ray, dogshitAimRadius, out hit, humanInteractDistance, humanTouchLayerMask, QueryTriggerInteraction.Collide))
 		{
 			targetPos = Camera.main.WorldToScreenPoint(hit.collider.transform.position);
 			anim.SetBool("HoveringItem", true);
