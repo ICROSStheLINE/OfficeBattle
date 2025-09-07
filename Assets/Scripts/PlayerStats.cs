@@ -6,6 +6,7 @@ public class PlayerStats : MonoBehaviour
 	public float health;
 	[HideInInspector] public bool isRunning = false;
 	[HideInInspector] public bool canMove = true;
+	[HideInInspector] public bool canTurn = true;
 	
     void Start()
     {

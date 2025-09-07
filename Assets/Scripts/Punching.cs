@@ -38,10 +38,8 @@ public class Punching : MonoBehaviour
     void Update()
     {
 		CheckForPunchInput();
-		if (constantPlayerMovement != default(Vector3))
-		{
-			playerMovement.BasicMovement(constantPlayerMovement, constantPlayerSpeed);
-		}
+		// If the player needs to move for the attack, trigger the BasicMovement() method in PlayerMovement
+		if (constantPlayerMovement != default(Vector3)) {playerMovement.BasicMovement(constantPlayerMovement, constantPlayerSpeed);}
     }
 
 	void CheckForPunchInput()
@@ -63,7 +61,8 @@ public class Punching : MonoBehaviour
         isMidRunningPunch = true;
         anim.SetBool("isPunching", true);
         playerStats.canMove = false;
-		
+		playerStats.canTurn = false;
+
 		constantPlayerMovement = transform.forward;
 		constantPlayerSpeed = default(float);
 
@@ -76,10 +75,11 @@ public class Punching : MonoBehaviour
 
 		constantPlayerMovement = default(Vector3);
 		constantPlayerSpeed = default(float);
-		
+
         anim.SetBool("isPunching", false);
         isMidRunningPunch = false;
         playerStats.canMove = true;
+		playerStats.canTurn = true;
     }
 
     public void DetectedCollision(GameObject dataOwner, GameObject collidedObject)

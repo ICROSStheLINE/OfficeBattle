@@ -21,7 +21,8 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         BasicMovement();
-        CameraMovement();
+		if (playerStats.canTurn)
+			CameraMovement();
     }
 
     public void BasicMovement(Vector3 moveDirection_ = default(Vector3), float forwardMoveSpeed_ = default(float))
