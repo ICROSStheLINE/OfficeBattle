@@ -32,7 +32,7 @@ public class Punching : MonoBehaviour
         anim = GetComponent<Animator>();
         playerStats = GetComponent<PlayerStats>();
 		playerMovement = GetComponent<PlayerMovement>();
-        humanTouchLayerMask = LayerMask.GetMask("HumanTrigger");
+        humanTouchLayerMask = LayerMask.GetMask("DummyTrigger");
     }
 
     void Update()

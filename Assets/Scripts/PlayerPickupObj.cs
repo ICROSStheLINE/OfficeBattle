@@ -39,7 +39,7 @@ public class PlayerPickupObj : MonoBehaviour
 		anim = GetComponent<Animator>();
 		torsoRig = torsoTargetingRig.GetComponent<Rig>();
 		handRig = handPosRig.GetComponent<Rig>();
-		humanTouchLayerMask = LayerMask.GetMask("HumanTrigger");
+		humanTouchLayerMask = LayerMask.GetMask("DummyTrigger");
 		
 		movementAnim = GetComponent<MovementAnim>();
 	}

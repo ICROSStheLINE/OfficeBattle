@@ -13,11 +13,11 @@ TagManager:
   - Water
   - UI
   - Object
-  - HumanCollider
-  - HumanTrigger
-  - 
-  - 
-  - 
+  - DummyCollider
+  - DummyTrigger
+  - Player1
+  - Player1Collider
+  - Player1Trigger
   - 
   - 
   - 

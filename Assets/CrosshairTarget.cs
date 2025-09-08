@@ -17,7 +17,7 @@ public class CrosshairTarget : MonoBehaviour
 	{
 		anim = GetComponent<Animator>();
 		itemPickupLayerMask = LayerMask.GetMask("Object");
-		humanTouchLayerMask = LayerMask.GetMask("HumanTrigger");
+		humanTouchLayerMask = LayerMask.GetMask("DummyTrigger");
         screenCenter = new Vector3(Screen.width / 2f, Screen.height / 2f, 0f);
     }
 
