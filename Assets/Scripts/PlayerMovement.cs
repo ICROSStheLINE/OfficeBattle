@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -5,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
     PlayerStats playerStats;
 
     public float forwardMoveSpeed = 10f;
-	public float backwardMoveSpeed = 5f;
+    public float backwardMoveSpeed = 5f;
     public float mouseSensitivity = 2f;
 
     private Transform cameraTransform;
@@ -20,15 +21,16 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        BasicMovement();
-		if (playerStats.canTurn)
-			CameraMovement();
+        if (playerStats.canMove)
+            BasicMovement();
+        if (playerStats.canTurn)
+            CameraMovement();
     }
 
     public void BasicMovement(Vector3 moveDirection_ = default(Vector3), float forwardMoveSpeed_ = default(float))
     {
         moveDirection = moveDirection_; // Same as doing moveDirection = zero, but if a custom direction was used it'd use that
-		if (forwardMoveSpeed_ == default(float)) {forwardMoveSpeed_ = forwardMoveSpeed;} // If no custom move speed was used, use preset speed
+        if (forwardMoveSpeed_ == default(float)) { forwardMoveSpeed_ = forwardMoveSpeed; } // If no custom move speed was used, use preset speed
 
         if (playerStats.canMove)
             CheckMovementInputs();
@@ -39,7 +41,20 @@ public class PlayerMovement : MonoBehaviour
             transform.position += moveDirection.normalized * forwardMoveSpeed_ * Time.deltaTime;
         else if (GetLocalMovementDirectionNormalized().z < 0f) // If ur moving backward
             transform.position += moveDirection.normalized * backwardMoveSpeed * Time.deltaTime;
-		
+
+    }
+
+    public void BasicMovementTowards(Vector3 targetLocation, float forwardMoveSpeed_ = default(float))
+    {
+        moveDirection = Vector3.zero;
+        if (forwardMoveSpeed_ == default(float)) { forwardMoveSpeed_ = forwardMoveSpeed; } // If no custom move speed was used, use preset speed
+        moveDirection = NormalizedDirectionTowardsTarget(transform.position, targetLocation);
+
+        playerStats.isRunning = moveDirection != Vector3.zero;
+        if (GetLocalMovementDirectionNormalized().z >= 0f) // If ur moving forward
+            transform.position = Vector3.MoveTowards(transform.position, targetLocation, forwardMoveSpeed_ * Time.deltaTime);
+        else if (GetLocalMovementDirectionNormalized().z < 0f) // If ur moving backward
+            transform.position = Vector3.MoveTowards(transform.position, targetLocation, backwardMoveSpeed * Time.deltaTime);
     }
 
     void CheckMovementInputs()
@@ -79,26 +94,36 @@ public class PlayerMovement : MonoBehaviour
     {
         return Vector3.SignedAngle(transform.right, moveDirection, Vector3.up);
         // ^^^ If this equals -90 then the player is running straight forward.
-		// ^^^ If this equals 0 then the player is running right
-		// ^^^ If this equals 180 then the player is running left
-		// ^^^ If this equals 90 then the player is running straight backwards
-		// ^^^ If this equals -45 then the player is running forward-right
-		// ^^^ If this equals -135 then the player is running forward-left
-		// ^^^ If this equals 45 then the player is running backwards-right
-		// ^^^ If this equals 135 then the player is running backwards-left
+        // ^^^ If this equals 0 then the player is running right
+        // ^^^ If this equals 180 then the player is running left
+        // ^^^ If this equals 90 then the player is running straight backwards
+        // ^^^ If this equals -45 then the player is running forward-right
+        // ^^^ If this equals -135 then the player is running forward-left
+        // ^^^ If this equals 45 then the player is running backwards-right
+        // ^^^ If this equals 135 then the player is running backwards-left
     }
-	
-	public Vector3 GetLocalMovementDirectionNormalized()
-	{
-		// Convert world moveDirection into local space (relative to player facing)
-		
-		return transform.InverseTransformDirection(moveDirection.normalized);
-		
-		// If we ignore the y value for localMove...
-		// localMove being (0,1) means forward
-		// localMove being (0,-1) means backward
-		// localMove being (-1,0) means left
-		// localMove being (1,0) means right
-		// etc...
-	}
+
+    public Vector3 GetLocalMovementDirectionNormalized()
+    {
+        // Convert world moveDirection into local space (relative to player facing)
+
+        return transform.InverseTransformDirection(moveDirection.normalized);
+
+        // If we ignore the y value for localMove...
+        // localMove being (0,1) means forward
+        // localMove being (0,-1) means backward
+        // localMove being (-1,0) means left
+        // localMove being (1,0) means right
+        // etc...
+    }
+
+    // The following code was yoinked directly from Unity Documentation
+    // https://docs.unity3d.com/2018.3/Documentation/Manual/DirectionDistanceFromOneObjectToAnother.html
+    public Vector3 NormalizedDirectionTowardsTarget(Vector3 startPoint, Vector3 targetPoint)
+    {
+        var heading = targetPoint - startPoint;
+        var distance = heading.magnitude;
+        var direction = heading / distance; // This is now the normalized direction.
+        return direction;
+    }
 }
