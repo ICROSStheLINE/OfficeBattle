@@ -18,8 +18,9 @@ public class PlayerStats : MonoBehaviour
 		
     }
 	
-	public void TakeDamage(float amount)
+	public void TakeDamage(float amount = default(float))
 	{
+		if (amount == default(float)) { amount = 1f; }
 		health -= amount;
 		if (health <= 0)
 		{

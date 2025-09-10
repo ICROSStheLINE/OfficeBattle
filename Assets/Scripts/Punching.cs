@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 public class Punching : MonoBehaviour
 {
+    // -- Important References
     PlayerStats playerStats;
     Animator anim;
 	PlayerMovement playerMovement;
     [SerializeField] GameObject leftArm;
     [SerializeField] GameObject rightArm;
 
+    // -- General Use Variables
     LayerMask humanTouchLayerMask;
     bool handDamageActive = false;
     float dogshitAimRadius = 0.5f;
@@ -19,18 +21,19 @@ public class Punching : MonoBehaviour
     
 	// -- 2 Step Running Punch
     bool isMidRunningPunch = false;
-	float punchGap = 3;
+	float punchGap = 2;
 	Vector2 twoStepRunningPunchTriggerRange = new Vector2(8f, 12f);
 
+    // -- 2 Step Running Punch Animation Variables
     static readonly float runPunchAnimationDurationSpeedMultiplier = 1f;
     static readonly float runPunchAnimationDuration = 1.083f / runPunchAnimationDurationSpeedMultiplier;
     static readonly float runPunchAnimationFrames = 26f;
-    static readonly float punchDamageActivationFrame = 18f;
-    static readonly float punchDamageDeactivationFrame = 20f;
-    static readonly float secondsUntilDamageActivation = (punchDamageActivationFrame / runPunchAnimationFrames) * runPunchAnimationDuration;
-    static readonly float secondsUntilDamageDeactivation = (punchDamageDeactivationFrame / runPunchAnimationFrames) * runPunchAnimationDuration;
-    static readonly float secondsBetweenDamageActivationAndDeactivation = secondsUntilDamageDeactivation - secondsUntilDamageActivation;
-    static readonly float secondsBetweenDamageDeactivationAndEnd = runPunchAnimationDuration - secondsUntilDamageDeactivation;
+    static readonly float runPunchDamageActivationFrame = 18f;
+    static readonly float runPunchDamageDeactivationFrame = 20f;
+    static readonly float secondsUntilRunPunchDamageActivation = (runPunchDamageActivationFrame / runPunchAnimationFrames) * runPunchAnimationDuration;
+    static readonly float secondsUntilRunPunchDamageDeactivation = (runPunchDamageDeactivationFrame / runPunchAnimationFrames) * runPunchAnimationDuration;
+    static readonly float secondsBetweenRunPunchDamageActivationAndDeactivation = secondsUntilRunPunchDamageDeactivation - secondsUntilRunPunchDamageActivation;
+    static readonly float secondsBetweenRunPunchDamageDeactivationAndEnd = runPunchAnimationDuration - secondsUntilRunPunchDamageDeactivation;
 
     void Start()
     {
@@ -82,9 +85,9 @@ public class Punching : MonoBehaviour
         constantPlayerMovement = default(Vector3);
         constantPlayerSpeed = default(float);
 
-        yield return new WaitForSeconds(secondsUntilDamageActivation);
+        yield return new WaitForSeconds(secondsUntilRunPunchDamageActivation);
         handDamageActive = true; // -- Turn on the damage hitboxes on the punch
-        yield return new WaitForSeconds(secondsBetweenDamageActivationAndDeactivation);
+        yield return new WaitForSeconds(secondsBetweenRunPunchDamageActivationAndDeactivation);
 
         // -- Player will no longer run towards that point where the opponent was.
         // -- Instead, player will blindly move forward, but at a snails pace
@@ -94,7 +97,7 @@ public class Punching : MonoBehaviour
         constantPlayerSpeed = playerMovement.forwardMoveSpeed / 4f;
 
         handDamageActive = false; // -- Turn off the damage hitboxes on the punch
-        yield return new WaitForSeconds(secondsBetweenDamageDeactivationAndEnd);
+        yield return new WaitForSeconds(secondsBetweenRunPunchDamageDeactivationAndEnd);
 
         // -- No more custom movement
         playerMovementTarget = default(Vector3);
@@ -113,6 +116,7 @@ public class Punching : MonoBehaviour
         if (dataOwner == rightArm && handDamageActive)
         {
             // Deal damage to collidedObject's PlayerStats.currentHealth variable
+            collidedObject.transform.root.GetComponent<PlayerStats>().TakeDamage();
         }
     }
 }
