@@ -117,6 +117,7 @@ public class Punching : MonoBehaviour
         {
             // Deal damage to collidedObject's PlayerStats.currentHealth variable
             collidedObject.transform.root.GetComponent<PlayerStats>().TakeDamage();
+			handDamageActive = false;
         }
     }
 }
