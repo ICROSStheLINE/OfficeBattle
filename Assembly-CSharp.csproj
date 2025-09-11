@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\DamageTrigger.cs" />
+    <Compile Include="Assets\Scripts\Blocking.cs" />
     <Compile Include="Assets\Scripts\FloatingHealthBar.cs" />
     <Compile Include="Assets\Scripts\PlayerStats.cs" />
     <Compile Include="Assets\Scripts\LowerBodyRigController.cs" />

@@ -54,7 +54,7 @@ public class Punching : MonoBehaviour
 
 	void CheckForPunchInput()
 	{
-        if (Input.GetKey("e") && !isMidRunningPunch)
+        if (Input.GetKey(KeyCode.Mouse0) && !isMidRunningPunch)
         {
             Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
 		    RaycastHit hit;
