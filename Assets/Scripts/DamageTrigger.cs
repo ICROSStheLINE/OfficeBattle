@@ -17,6 +17,13 @@ public class DamageTrigger : MonoBehaviour
                 // Tell Punching.cs that we have made a collision with an opponent
                 gameObject.transform.root.GetComponent<Punching>().DetectedCollision(transform.gameObject, collision.transform.gameObject);
             }
+			
+			// If it collided with the arms
+			if (collision.gameObject.name == "LowerArm_L" || 
+			 collision.gameObject.name == "LowerArm_R")
+			{
+				gameObject.transform.root.GetComponent<Punching>().DetectedCollision(transform.gameObject, collision.transform.gameObject);
+			}
         }
     }
 }

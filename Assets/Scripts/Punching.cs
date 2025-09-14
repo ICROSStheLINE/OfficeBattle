@@ -113,11 +113,25 @@ public class Punching : MonoBehaviour
 
     public void DetectedCollision(GameObject dataOwner, GameObject collidedObject)
     {
-        if (dataOwner == rightArm && handDamageActive)
+        if (dataOwner == rightArm && handDamageActive && !IsArm(collidedObject))
         {
             // Deal damage to collidedObject's PlayerStats.currentHealth variable
             collidedObject.transform.root.GetComponent<PlayerStats>().TakeDamage();
 			handDamageActive = false;
         }
+		if (dataOwner == rightArm && handDamageActive && IsArm(collidedObject))
+		{
+			Blocking collidedObjBlockingComponent = collidedObject.transform.root.GetComponent<Blocking>();
+			if (collidedObjBlockingComponent.isBlocking)
+			{
+				handDamageActive = false;
+				collidedObjBlockingComponent.StartCoroutine("BlockPushback");
+			}
+		}
     }
+	
+	bool IsArm(GameObject limbInQuestion)
+	{
+		return (limbInQuestion.name == "LowerArm_L" || limbInQuestion.name == "LowerArm_R");
+	}
 }
