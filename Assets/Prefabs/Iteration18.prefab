@@ -1250,6 +1250,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d74f3aa1a838b044ea4a625194773441, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBlocking: 0
+  midBlockPushback: 0
 --- !u!114 &1679315968396410311
 MonoBehaviour:
   m_ObjectHideFlags: 0

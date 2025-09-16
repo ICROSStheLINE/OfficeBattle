@@ -1042,14 +1042,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1304677625842507408, guid: 5785b899e7d31de499561a1a09e4eed1, type: 3}
-      propertyPath: m_Data.m_ConstrainedObject
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2639864060239067509, guid: 5785b899e7d31de499561a1a09e4eed1, type: 3}
-      propertyPath: m_Data.m_ConstrainedObject
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 3571226744785711822, guid: 5785b899e7d31de499561a1a09e4eed1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.9567122
@@ -1093,26 +1085,6 @@ PrefabInstance:
     - target: {fileID: 4234610021903886452, guid: 5785b899e7d31de499561a1a09e4eed1, type: 3}
       propertyPath: m_Name
       value: Iteration18
-      objectReference: {fileID: 0}
-    - target: {fileID: 6242550329398441674, guid: 5785b899e7d31de499561a1a09e4eed1, type: 3}
-      propertyPath: m_Data.m_ConstrainedObject
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6942382396644869659, guid: 5785b899e7d31de499561a1a09e4eed1, type: 3}
-      propertyPath: m_Data.m_Mid
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6942382396644869659, guid: 5785b899e7d31de499561a1a09e4eed1, type: 3}
-      propertyPath: m_Data.m_Tip
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6942382396644869659, guid: 5785b899e7d31de499561a1a09e4eed1, type: 3}
-      propertyPath: m_Data.m_Root
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8509055457179180722, guid: 5785b899e7d31de499561a1a09e4eed1, type: 3}
-      propertyPath: m_Data.m_ConstrainedObject
-      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
