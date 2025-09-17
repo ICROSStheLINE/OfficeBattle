@@ -961,7 +961,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0c29fb677de909447824efdc8df70957, type: 3}
       propertyPath: m_Name
-      value: Iteration18
+      value: Iteration18 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 0c29fb677de909447824efdc8df70957, type: 3}
       propertyPath: m_Layer
@@ -1281,7 +1281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2262684121
+  GlobalObjectIdHash: 3013127629
   InScenePlacedSourceGlobalObjectIdHash: 2262684121
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1312,7 +1312,7 @@ MonoBehaviour:
   isRunning: 0
   canMove: 1
   canTurn: 1
-  playerNumber: 1
+  playerNumber: 2
 --- !u!114 &1634053932730224697
 MonoBehaviour:
   m_ObjectHideFlags: 0

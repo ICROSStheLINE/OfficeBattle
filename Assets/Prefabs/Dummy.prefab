@@ -224,6 +224,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3957971289471267861}
   - component: {fileID: 831761184647919505}
+  - component: {fileID: 3963637944711597259}
   - component: {fileID: 2746583612273056372}
   - component: {fileID: 1745797292439512266}
   - component: {fileID: 107676143365739200}
@@ -280,6 +281,31 @@ MonoBehaviour:
   isRunning: 0
   canMove: 1
   canTurn: 1
+--- !u!114 &3963637944711597259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575624152626515262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 4262575619
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &2746583612273056372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,6 +318,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 862771ad1151a064eb4133351575315a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   forwardMoveSpeed: 10
   backwardMoveSpeed: 5
   mouseSensitivity: 2
@@ -308,6 +335,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fc36a691187e9c42b4eee46f3cc79f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   forwardStepDistance: 0
   backwardStepDistance: 0
 --- !u!114 &107676143365739200
@@ -322,6 +350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a39007f879711a9449ef54e26428d245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   penContainer: {fileID: 7601542780142406458}
   torsoAimTarget: {fileID: 6893875462319844093}
   torsoTargetingRig: {fileID: 2079586404889431324}
@@ -340,6 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34e6b5dd5228119448e69d4bdd9ff09d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   leftArm: {fileID: 0}
   rightArm: {fileID: 0}
 --- !u!95 &2554353242967583553

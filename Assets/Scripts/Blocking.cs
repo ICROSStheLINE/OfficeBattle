@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Blocking : MonoBehaviour
+public class Blocking : NetworkBehaviour
 {
 	Animator anim;
 	PlayerStats playerStats;
@@ -21,6 +22,11 @@ public class Blocking : MonoBehaviour
 
     void Update()
     {
+		if (!IsOwner)
+		{
+			return;
+		}
+		
         if (Input.GetKey("e"))
 		{
 			isBlocking = true;

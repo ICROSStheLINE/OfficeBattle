@@ -2,8 +2,9 @@ using Unity.VisualScripting;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     PlayerStats playerStats;
 
@@ -23,8 +24,13 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         if (playerStats.canMove)
-            BasicMovement();
+                BasicMovement();
         if (playerStats.canTurn)
             CameraMovement();
     }

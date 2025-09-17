@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
-public class PlayerPickupObj : MonoBehaviour
+public class PlayerPickupObj : NetworkBehaviour
 {
 	Animator anim;
 	MovementAnim movementAnim;
@@ -46,11 +47,16 @@ public class PlayerPickupObj : MonoBehaviour
 	
 	void FixedUpdate()
 	{
-		if (Input.GetKey(KeyCode.Mouse0))
+		if (!IsOwner)
 		{
-			if (currentlyHeldObject == null)
-				PickUpItem();
+			return;
 		}
+
+		if (Input.GetKey(KeyCode.Mouse0))
+			{
+				if (currentlyHeldObject == null)
+					PickUpItem();
+			}
 		if (Input.GetKey(KeyCode.Mouse1))
 		{
 			if (currentlyHeldObject != null)

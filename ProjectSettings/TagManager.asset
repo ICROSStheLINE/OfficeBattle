@@ -18,9 +18,9 @@ TagManager:
   - Player1
   - Player1Collider
   - Player1Trigger
-  - 
-  - 
-  - 
+  - Player2
+  - Player2Collider
+  - Player2Trigger
   - 
   - 
   - 
