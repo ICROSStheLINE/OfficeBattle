@@ -53,10 +53,10 @@ public class PlayerPickupObj : NetworkBehaviour
 		}
 
 		if (Input.GetKey(KeyCode.Mouse0))
-			{
-				if (currentlyHeldObject == null)
-					PickUpItem();
-			}
+		{
+			if (currentlyHeldObject == null)
+				PickUpItem();
+		}
 		if (Input.GetKey(KeyCode.Mouse1))
 		{
 			if (currentlyHeldObject != null)

@@ -46,6 +46,11 @@ public class Punching : NetworkBehaviour
 
     void Update()
     {
+		if (!IsOwner)
+        {
+            return;
+        }
+		
         CheckForPunchInput();
         // If the player needs to move for the attack, trigger the BasicMovement() method in PlayerMovement
         if (constantPlayerMovement != default(Vector3)) { playerMovement.BasicMovement(constantPlayerMovement, constantPlayerSpeed); }
@@ -55,10 +60,6 @@ public class Punching : NetworkBehaviour
 
     void CheckForPunchInput()
     {
-        if (!IsOwner)
-        {
-            return;
-        }
 
         if (Input.GetKey(KeyCode.Mouse0) && !isMidRunningPunch)
         {
@@ -145,11 +146,11 @@ public class Punching : NetworkBehaviour
     {
         if (player == 1)
         {
-            humanTouchLayerMask = humanTouchLayerMask = LayerMask.GetMask("DummyTrigger", "Player2Trigger");
+            humanTouchLayerMask = LayerMask.GetMask("DummyTrigger", "Player2Trigger");
         }
         if (player == 2)
         {
-            humanTouchLayerMask = humanTouchLayerMask = LayerMask.GetMask("DummyTrigger", "Player1Trigger");
+            humanTouchLayerMask = LayerMask.GetMask("DummyTrigger", "Player1Trigger");
         }
     }
 }

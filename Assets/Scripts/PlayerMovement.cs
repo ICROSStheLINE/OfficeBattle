@@ -19,6 +19,12 @@ public class PlayerMovement : NetworkBehaviour
     void Start()
     {
         playerStats = GetComponent<PlayerStats>();
+		
+		if (!IsOwner)
+        {
+            return;
+        }
+		
         SetupCamera();
     }
 
@@ -30,7 +36,7 @@ public class PlayerMovement : NetworkBehaviour
         }
 
         if (playerStats.canMove)
-                BasicMovement();
+            BasicMovement();
         if (playerStats.canTurn)
             CameraMovement();
     }
