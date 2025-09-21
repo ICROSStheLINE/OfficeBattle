@@ -41,7 +41,10 @@ public class Punching : NetworkBehaviour
         anim = GetComponent<Animator>();
         playerStats = GetComponent<PlayerStats>();
         playerMovement = GetComponent<PlayerMovement>();
-        humanTouchLayerMask = LayerMask.GetMask("DummyTrigger");
+		if (humanTouchLayerMask == default(LayerMask))
+		{
+			humanTouchLayerMask = LayerMask.GetMask("DummyTrigger");
+		}
     }
 
     void Update()
@@ -147,6 +150,7 @@ public class Punching : NetworkBehaviour
         if (player == 1)
         {
             humanTouchLayerMask = LayerMask.GetMask("DummyTrigger", "Player2Trigger");
+			Debug.Log("typeshi");
         }
         if (player == 2)
         {
