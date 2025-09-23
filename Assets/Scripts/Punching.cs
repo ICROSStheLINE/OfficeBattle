@@ -123,20 +123,21 @@ public class Punching : NetworkBehaviour
 
     public void DetectedCollision(GameObject dataOwner, GameObject collidedObject)
     {
-        if (dataOwner == rightArm && handDamageActive && !IsArm(collidedObject))
+        if (dataOwner == rightArm && handDamageActive)
         {
-            // Deal damage to collidedObject's PlayerStats.currentHealth variable
-            collidedObject.transform.root.GetComponent<PlayerStats>().TakeDamage();
-            handDamageActive = false;
-        }
-        if (dataOwner == rightArm && handDamageActive && IsArm(collidedObject))
-        {
-            Blocking collidedObjBlockingComponent = collidedObject.transform.root.GetComponent<Blocking>();
-            if (collidedObjBlockingComponent.isBlocking)
+			Blocking collidedObjBlockingComponent = collidedObject.transform.root.GetComponent<Blocking>();
+
+			if (!collidedObjBlockingComponent.isBlocking.Value) // If opponent wasn't blocking
             {
-                handDamageActive = false;
-                collidedObjBlockingComponent.StartCoroutine("BlockPushback");
+				// Deal damage to collidedObject's PlayerStats.currentHealth variable
+				collidedObject.transform.root.GetComponent<PlayerStats>().TakeDamageServerRpc();
+				handDamageActive = false;
             }
+			else // If opponent was blocking
+			{
+				handDamageActive = false;
+                collidedObjBlockingComponent.TriggerBlockPushbackServerRpc();
+			}
         }
     }
 
@@ -150,7 +151,6 @@ public class Punching : NetworkBehaviour
         if (player == 1)
         {
             humanTouchLayerMask = LayerMask.GetMask("DummyTrigger", "Player2Trigger");
-			Debug.Log("typeshi");
         }
         if (player == 2)
         {

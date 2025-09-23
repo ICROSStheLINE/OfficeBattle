@@ -14,7 +14,7 @@ public class FloatingHealthBar : MonoBehaviour
 
     void Update()
     {
-        slider.value = attachedPlayerStats.health / attachedPlayerStats.maxHealth;
+        slider.value = attachedPlayerStats.health.Value / attachedPlayerStats.maxHealth;
 		if (slider.value == 0)
 		{
 			GameObject hpMeter = gameObject.transform.Find("Fill Area").gameObject.transform.Find("Fill").gameObject;

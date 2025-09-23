@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class DamageHitbox : MonoBehaviour
 {
-	[SerializeField] float damageAmount = 2;
+	/*[SerializeField] float damageAmount = 2;
 	[SerializeField] float heavyDamageAmount = 5;
 	[HideInInspector] public bool damageActive = false;
 	
@@ -32,5 +32,5 @@ public class DamageHitbox : MonoBehaviour
 			}
 		}
 		damageActive = false;
-	}
+	}*/
 }
