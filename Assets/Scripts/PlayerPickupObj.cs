@@ -19,9 +19,7 @@ public class PlayerPickupObj : NetworkBehaviour
 	Rig torsoRig;
 	Rig handRig;
 	
-	LayerMask humanTouchLayerMask;
-	
-	public GameObject currentlyHeldObject = null;
+	public NetworkVariable<NetworkObjectReference> currentlyHeldObject = new NetworkVariable<NetworkObjectReference>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 	float dogshitAimRadius = 0.5f;
 	float pickUpDistance = 5f;
 	
@@ -40,7 +38,6 @@ public class PlayerPickupObj : NetworkBehaviour
 		anim = GetComponent<Animator>();
 		torsoRig = torsoTargetingRig.GetComponent<Rig>();
 		handRig = handPosRig.GetComponent<Rig>();
-		humanTouchLayerMask = LayerMask.GetMask("DummyTrigger");
 		
 		movementAnim = GetComponent<MovementAnim>();
 	}
@@ -54,12 +51,12 @@ public class PlayerPickupObj : NetworkBehaviour
 
 		if (Input.GetKey(KeyCode.Mouse0))
 		{
-			if (currentlyHeldObject == null)
+			if (currentlyHeldObject.Equals(default(NetworkObjectReference)))
 				PickUpItem();
 		}
 		if (Input.GetKey(KeyCode.Mouse1))
 		{
-			if (currentlyHeldObject != null)
+			if (!currentlyHeldObject.Equals(default(NetworkObjectReference)))
 				DropItem();
 		}
 	}
@@ -70,19 +67,40 @@ public class PlayerPickupObj : NetworkBehaviour
 		RaycastHit hit;
 		if (Physics.SphereCast(ray, dogshitAimRadius, out hit, pickUpDistance, layerMask))
 		{
-			currentlyHeldObject = hit.transform.gameObject;
-			StartCoroutine("HandlePickUpAnimation");
-			//Debug.Log("Selected an object!! Yippee!! \n" + "Object name: " + hit.transform.gameObject.name + "\n" + "Object distance from player: " + hit.distance);
+			currentlyHeldObject.Value = hit.transform.gameObject.GetComponent<NetworkObjectReference>();
+			TriggerPickUpServerRpc(currentlyHeldObject.Value);
 		}
 	}
-	
-	IEnumerator HandlePickUpAnimation()
+
+	[ServerRpc(RequireOwnership = false)]
+	public void TriggerPickUpServerRpc(NetworkObjectReference itemRef)
 	{
-		anim.SetBool("isPickingUpObj", true);
+		Debug.Log("Flag 1");
+		TriggerPickUpClientRpc(itemRef);
+	}
+
+	[ClientRpc]
+	private void TriggerPickUpClientRpc(NetworkObjectReference itemRef)
+	{
+		Debug.Log("Flag 2");
+		
+		if (itemRef.TryGet(out NetworkObject netObj))
+		{
+			StartCoroutine(HandlePickUpAnimation(netObj.gameObject));
+		}
+	}
+
+	IEnumerator HandlePickUpAnimation(GameObject itemRef)
+	{
+		Debug.Log("Flag 3");
+		if (IsOwner)
+		{
+			anim.SetBool("isPickingUpObj", true);
+		}
 
 		// Hand and torso rig target objects
-		handPosTarget.transform.position = currentlyHeldObject.transform.position;
-		torsoAimTarget.transform.position = currentlyHeldObject.transform.position;
+		handPosTarget.transform.position = itemRef.gameObject.transform.position;
+		torsoAimTarget.transform.position = itemRef.gameObject.transform.position;
 
 		// ───────────────────────────────
 		// Phase 1: Reach for the item
@@ -96,9 +114,9 @@ public class PlayerPickupObj : NetworkBehaviour
 			float smoothT = Mathf.SmoothStep(0f, 1f, t);
 
 			// Hand and Torso rigs
-			handPosTarget.transform.position = currentlyHeldObject.transform.position;
+			handPosTarget.transform.position = itemRef.gameObject.transform.position;
 			handRig.weight = smoothT;
-			torsoAimTarget.transform.position = currentlyHeldObject.transform.position;
+			torsoAimTarget.transform.position = itemRef.gameObject.transform.position;
 			torsoRig.weight = smoothT;
 
 			yield return null;
@@ -110,11 +128,11 @@ public class PlayerPickupObj : NetworkBehaviour
 
 		// ───────────────────────────────
 		// Item goes in its container
-		currentlyHeldObject.transform.SetParent(penContainer.transform); // For now only container is penContainer (lol)
-		currentlyHeldObject.transform.localPosition = Vector3.zero;
-		currentlyHeldObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
-		currentlyHeldObject.GetComponent<Rigidbody>().isKinematic = true;
-		currentlyHeldObject.GetComponent<BoxCollider>().isTrigger = true;
+		itemRef.gameObject.transform.SetParent(penContainer.transform); // For now only container is penContainer (lol)
+		itemRef.gameObject.transform.localPosition = Vector3.zero;
+		itemRef.gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
+		itemRef.gameObject.transform.GetComponent<Rigidbody>().isKinematic = true;
+		itemRef.gameObject.transform.GetComponent<BoxCollider>().isTrigger = true;
 
 		// ───────────────────────────────
 		// Phase 2: Return hand and torso to normal positions
@@ -137,15 +155,21 @@ public class PlayerPickupObj : NetworkBehaviour
 		handRig.weight = 0f;
 		torsoRig.weight = 0f;
 
-		anim.SetBool("isPickingUpObj", false);
+		if (IsOwner)
+		{
+			anim.SetBool("isPickingUpObj", false);
+		}
 	}
 
-	
+
 	void DropItem()
 	{
-		currentlyHeldObject.transform.SetParent(null);
-		currentlyHeldObject.transform.GetComponent<Rigidbody>().isKinematic = false;
-		currentlyHeldObject.transform.GetComponent<BoxCollider>().isTrigger = false;
-		currentlyHeldObject = null;
+		if (currentlyHeldObject.Value.TryGet(out NetworkObject netObj))
+		{
+			netObj.gameObject.transform.SetParent(null);
+			netObj.gameObject.transform.GetComponent<Rigidbody>().isKinematic = false;
+			netObj.gameObject.transform.GetComponent<BoxCollider>().isTrigger = false;
+		}
+		currentlyHeldObject.Value = default(NetworkObjectReference);
 	}
 }
