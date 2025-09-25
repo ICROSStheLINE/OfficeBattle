@@ -18,7 +18,12 @@ public class PlayerPickupObj : NetworkBehaviour
 	[SerializeField] GameObject handPosRig;
 	Rig torsoRig;
 	Rig handRig;
-	
+
+	// - Note -
+	// This NetworkVariable should ideally be set to null, but 'NetworkObjectReference' variables cannot be set to null for some reason
+	// Setting it to default is the next best thing, as (in this case) it is effectively the same as null.
+	// The Unity Engine devs addressed this complaint and said they would fix it in version 1.9 or something, but I'm on like version 2.something and it's NOT FIXED YET
+	// These devs are FOOLISH/LAZY???
 	public NetworkVariable<NetworkObjectReference> currentlyHeldObject = new NetworkVariable<NetworkObjectReference>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 	float dogshitAimRadius = 0.5f;
 	float pickUpDistance = 5f;
@@ -72,6 +77,9 @@ public class PlayerPickupObj : NetworkBehaviour
 		}
 	}
 
+	// Think back to the image explaining Owner Authoritative Networking.
+	// Here, the Owner is sending the information to the server, 
+	// then in the ClientRpc the server is distributing that information to all the oher clients.
 	[ServerRpc(RequireOwnership = false)]
 	public void TriggerPickUpServerRpc(NetworkObjectReference itemRef)
 	{
@@ -79,11 +87,19 @@ public class PlayerPickupObj : NetworkBehaviour
 		TriggerPickUpClientRpc(itemRef);
 	}
 
+	// Without this ClientRpc method, this stuff would only show for the server/host.
 	[ClientRpc]
 	private void TriggerPickUpClientRpc(NetworkObjectReference itemRef)
 	{
 		Debug.Log("Flag 2");
-		
+
+		// - Note -
+		// variable.TryGet seems to be a built-in function that comes with all "NetworkObjectReference" variables.
+		// Its sole function is to get the NetworkObject component that is being referenced by "NetworkObjectReference".
+		// You might be thinking "Why don't we just use the NetworkObject reference in the first place instead of having to deal with this "NetworkObjectReference" variable,
+		// but NetworkObjectReference (in conjunction with .TryGet) is useful because it can tell if an object DOESN'T EXIST IN THE SCENE ANYMORE!
+		// If we only referenced "NetworkObject", it would retain that reference in memory even AFTER the object has been removed from the scene!
+		// Crazy stuff.
 		if (itemRef.TryGet(out NetworkObject netObj))
 		{
 			StartCoroutine(HandlePickUpAnimation(netObj.gameObject));

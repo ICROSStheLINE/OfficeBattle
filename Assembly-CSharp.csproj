@@ -66,20 +66,20 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.42f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Legacy\LowerBodyRigController.cs" />
     <Compile Include="Assets\Scripts\OwnerNetworkAnimator.cs" />
+    <Compile Include="Assets\Scripts\Legacy\DamageHitbox.cs" />
     <Compile Include="Assets\Scripts\DamageTrigger.cs" />
     <Compile Include="Assets\Scripts\Blocking.cs" />
     <Compile Include="Assets\Scripts\FloatingHealthBar.cs" />
     <Compile Include="Assets\Scripts\PlayerStats.cs" />
-    <Compile Include="Assets\Scripts\LowerBodyRigController.cs" />
-    <Compile Include="Assets\Scripts\DamageHitbox.cs" />
     <Compile Include="Assets\Scripts\Punching.cs" />
     <Compile Include="Assets\Samples\Animation Rigging\1.3.0\Animation Rigging Constraint Samples\Scripts\mParent.cs" />
     <Compile Include="Assets\Scripts\PlayerPickupObj.cs" />
     <Compile Include="Assets\Scripts\MovementAnim.cs" />
-    <Compile Include="Assets\Scripts\PlayerPenAttack.cs" />
     <Compile Include="Assets\NetworkUI.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\Legacy\PlayerPenAttack.cs" />
     <Compile Include="Assets\Samples\Animation Rigging\1.3.0\Animation Rigging Constraint Samples\Info\Scripts\Readme.cs" />
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\CrosshairTarget.cs" />
