@@ -96,9 +96,9 @@ public class PlayerPickupObj : NetworkBehaviour
 		// - Note -
 		// variable.TryGet seems to be a built-in function that comes with all "NetworkObjectReference" variables.
 		// Its sole function is to get the NetworkObject component that is being referenced by "NetworkObjectReference".
-		// You might be thinking "Why don't we just use the NetworkObject reference in the first place instead of having to deal with this "NetworkObjectReference" variable,
-		// but NetworkObjectReference (in conjunction with .TryGet) is useful because it can tell if an object DOESN'T EXIST IN THE SCENE ANYMORE!
-		// If we only referenced "NetworkObject", it would retain that reference in memory even AFTER the object has been removed from the scene!
+		// You might be thinking "Why don't we just use the NetworkObject reference in the first place instead of having to deal with this "NetworkObjectReference" variable?
+		// NetworkObjectReference (in conjunction with .TryGet) is useful because it can tell if an object DOESN'T EXIST IN THE SCENE ANYMORE!
+		// If we only referenced "NetworkObject", it would retain that reference in memory even AFTER the object has been removed from the scene (for some reason).
 		// Crazy stuff.
 		if (itemRef.TryGet(out NetworkObject netObj))
 		{
