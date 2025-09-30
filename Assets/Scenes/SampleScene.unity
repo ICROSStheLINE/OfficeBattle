@@ -377,7 +377,7 @@ MonoBehaviour:
   ConnectionData:
     Address: 0.0.0.0
     Port: 7777
-    ServerListenAddress: 127.0.0.1
+    ServerListenAddress: 0.0.0.0
   DebugSimulator:
     PacketDelayMS: 0
     PacketJitterMS: 0
@@ -769,6 +769,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: penCentrePivot (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1610200035103183685, guid: da947e91cc057e344bfa35646f944ce1, type: 3}
+      propertyPath: Components.Array.data[0].name
+      value: penCentrePivot (2) (Box Collider)
+      objectReference: {fileID: 0}
     - target: {fileID: 1776578413456582708, guid: da947e91cc057e344bfa35646f944ce1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.18
@@ -1088,6 +1092,10 @@ PrefabInstance:
     - target: {fileID: 1435658768364122766, guid: da947e91cc057e344bfa35646f944ce1, type: 3}
       propertyPath: m_Name
       value: penCentrePivot (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1610200035103183685, guid: da947e91cc057e344bfa35646f944ce1, type: 3}
+      propertyPath: Components.Array.data[0].name
+      value: penCentrePivot (1) (Box Collider)
       objectReference: {fileID: 0}
     - target: {fileID: 1776578413456582708, guid: da947e91cc057e344bfa35646f944ce1, type: 3}
       propertyPath: m_LocalPosition.x

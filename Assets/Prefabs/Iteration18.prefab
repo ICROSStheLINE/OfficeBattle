@@ -1536,12 +1536,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  penLocalPrefab: {fileID: 1435658768364122766, guid: e46a9148598bd774ba57259bc9e6ed20, type: 3}
   penContainer: {fileID: 5144103477974544116}
   torsoAimTarget: {fileID: 3258488113142291137}
   torsoTargetingRig: {fileID: 4918971451506522624}
   handPosTarget: {fileID: 6159155527934933810}
   handPosRig: {fileID: 1166831503498315953}
-  currentlyHeldObject: {fileID: 0}
 --- !u!114 &8399757231173513144
 MonoBehaviour:
   m_ObjectHideFlags: 0

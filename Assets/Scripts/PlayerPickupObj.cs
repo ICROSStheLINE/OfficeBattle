@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.Netcode.Components;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
 
@@ -11,6 +12,7 @@ public class PlayerPickupObj : NetworkBehaviour
 	
     LayerMask layerMask;
 	Transform playerPOV;
+	[SerializeField] GameObject penLocalPrefab;
 	[SerializeField] GameObject penContainer;
 	[SerializeField] GameObject torsoAimTarget;
 	[SerializeField] GameObject torsoTargetingRig;
@@ -24,7 +26,9 @@ public class PlayerPickupObj : NetworkBehaviour
 	// Setting it to default is the next best thing, as (in this case) it is effectively the same as null.
 	// The Unity Engine devs addressed this complaint and said they would fix it in version 1.9 or something, but I'm on like version 2.something and it's NOT FIXED YET
 	// These devs are FOOLISH/LAZY???
-	public NetworkVariable<NetworkObjectReference> currentlyHeldObject = new NetworkVariable<NetworkObjectReference>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+	public NetworkVariable<NetworkObjectReference> currentlyHeldNetworkObjectReference = new NetworkVariable<NetworkObjectReference>(default, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+	GameObject currentlyHeldLocalObject = null;
+	bool currentlyHoldingItem = false;
 	float dogshitAimRadius = 0.5f;
 	float pickUpDistance = 5f;
 	
@@ -56,13 +60,18 @@ public class PlayerPickupObj : NetworkBehaviour
 
 		if (Input.GetKey(KeyCode.Mouse0))
 		{
-			if (currentlyHeldObject.Equals(default(NetworkObjectReference)))
+			if (!currentlyHoldingItem)
+			{
+				Debug.Log("Flag 0");
 				PickUpItem();
+			}
 		}
 		if (Input.GetKey(KeyCode.Mouse1))
 		{
-			if (!currentlyHeldObject.Equals(default(NetworkObjectReference)))
+			if (currentlyHoldingItem)
+			{
 				DropItem();
+			}
 		}
 	}
 
@@ -72,8 +81,9 @@ public class PlayerPickupObj : NetworkBehaviour
 		RaycastHit hit;
 		if (Physics.SphereCast(ray, dogshitAimRadius, out hit, pickUpDistance, layerMask))
 		{
-			currentlyHeldObject.Value = hit.transform.gameObject.GetComponent<NetworkObjectReference>();
-			TriggerPickUpServerRpc(currentlyHeldObject.Value);
+			currentlyHoldingItem = true;
+			currentlyHeldNetworkObjectReference.Value = new NetworkObjectReference(hit.transform.gameObject.GetComponent<NetworkObject>());
+			TriggerPickUpServerRpc(currentlyHeldNetworkObjectReference.Value);
 		}
 	}
 
@@ -81,15 +91,15 @@ public class PlayerPickupObj : NetworkBehaviour
 	// Here, the Owner is sending the information to the server, 
 	// then in the ClientRpc the server is distributing that information to all the oher clients.
 	[ServerRpc(RequireOwnership = false)]
-	public void TriggerPickUpServerRpc(NetworkObjectReference itemRef)
+	public void TriggerPickUpServerRpc(NetworkObjectReference netObjRef)
 	{
 		Debug.Log("Flag 1");
-		TriggerPickUpClientRpc(itemRef);
+		TriggerPickUpClientRpc(netObjRef);
 	}
 
 	// Without this ClientRpc method, this stuff would only show for the server/host.
 	[ClientRpc]
-	private void TriggerPickUpClientRpc(NetworkObjectReference itemRef)
+	private void TriggerPickUpClientRpc(NetworkObjectReference netObjRef)
 	{
 		Debug.Log("Flag 2");
 
@@ -100,13 +110,13 @@ public class PlayerPickupObj : NetworkBehaviour
 		// NetworkObjectReference (in conjunction with .TryGet) is useful because it can tell if an object DOESN'T EXIST IN THE SCENE ANYMORE!
 		// If we only referenced "NetworkObject", it would retain that reference in memory even AFTER the object has been removed from the scene (for some reason).
 		// Crazy stuff.
-		if (itemRef.TryGet(out NetworkObject netObj))
+		if (netObjRef.TryGet(out NetworkObject netObj))
 		{
-			StartCoroutine(HandlePickUpAnimation(netObj.gameObject));
+			StartCoroutine(HandlePickUpAnimation(netObjRef, netObj.gameObject));
 		}
 	}
 
-	IEnumerator HandlePickUpAnimation(GameObject itemRef)
+	IEnumerator HandlePickUpAnimation(NetworkObjectReference netObjRef, GameObject itemRef)
 	{
 		Debug.Log("Flag 3");
 		if (IsOwner)
@@ -115,8 +125,8 @@ public class PlayerPickupObj : NetworkBehaviour
 		}
 
 		// Hand and torso rig target objects
-		handPosTarget.transform.position = itemRef.gameObject.transform.position;
-		torsoAimTarget.transform.position = itemRef.gameObject.transform.position;
+		handPosTarget.transform.position = itemRef.transform.position;
+		torsoAimTarget.transform.position = itemRef.transform.position;
 
 		// ───────────────────────────────
 		// Phase 1: Reach for the item
@@ -130,9 +140,9 @@ public class PlayerPickupObj : NetworkBehaviour
 			float smoothT = Mathf.SmoothStep(0f, 1f, t);
 
 			// Hand and Torso rigs
-			handPosTarget.transform.position = itemRef.gameObject.transform.position;
+			handPosTarget.transform.position = itemRef.transform.position;
 			handRig.weight = smoothT;
-			torsoAimTarget.transform.position = itemRef.gameObject.transform.position;
+			torsoAimTarget.transform.position = itemRef.transform.position;
 			torsoRig.weight = smoothT;
 
 			yield return null;
@@ -144,11 +154,14 @@ public class PlayerPickupObj : NetworkBehaviour
 
 		// ───────────────────────────────
 		// Item goes in its container
-		itemRef.gameObject.transform.SetParent(penContainer.transform); // For now only container is penContainer (lol)
-		itemRef.gameObject.transform.localPosition = Vector3.zero;
-		itemRef.gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
-		itemRef.gameObject.transform.GetComponent<Rigidbody>().isKinematic = true;
-		itemRef.gameObject.transform.GetComponent<BoxCollider>().isTrigger = true;
+		
+		currentlyHeldLocalObject = Instantiate(penLocalPrefab, Vector3.zero, Quaternion.Euler(Vector3.zero));
+		currentlyHeldLocalObject.transform.SetParent(penContainer.transform); // For now only container is penContainer (lol)
+		currentlyHeldLocalObject.transform.localPosition = Vector3.zero;
+		currentlyHeldLocalObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
+		currentlyHeldLocalObject.transform.GetComponent<Rigidbody>().isKinematic = true;
+		currentlyHeldLocalObject.transform.GetComponent<BoxCollider>().isTrigger = true;
+		SetNetworkObjectActiveStatusServerRpc(netObjRef, false);
 
 		// ───────────────────────────────
 		// Phase 2: Return hand and torso to normal positions
@@ -177,15 +190,43 @@ public class PlayerPickupObj : NetworkBehaviour
 		}
 	}
 
-
 	void DropItem()
 	{
-		if (currentlyHeldObject.Value.TryGet(out NetworkObject netObj))
+		DropItemServerRpc();
+		currentlyHeldNetworkObjectReference.Value = default(NetworkObjectReference);
+	}
+
+	[ServerRpc(RequireOwnership = false)]
+	void DropItemServerRpc()
+	{
+		if (currentlyHeldNetworkObjectReference.Value.TryGet(out NetworkObject netObj))
 		{
-			netObj.gameObject.transform.SetParent(null);
-			netObj.gameObject.transform.GetComponent<Rigidbody>().isKinematic = false;
-			netObj.gameObject.transform.GetComponent<BoxCollider>().isTrigger = false;
+			SetNetworkObjectActiveStatusServerRpc(currentlyHeldNetworkObjectReference.Value, true);
+			netObj.gameObject.transform.position = currentlyHeldLocalObject.transform.position;
+			netObj.gameObject.transform.rotation = currentlyHeldLocalObject.transform.rotation;
 		}
-		currentlyHeldObject.Value = default(NetworkObjectReference);
+		DropItemClientRpc();
+	}
+
+	[ClientRpc]
+	void DropItemClientRpc()
+	{
+		Destroy(currentlyHeldLocalObject);
+		currentlyHeldLocalObject = null;
+		currentlyHoldingItem = false;
+	}
+
+	[ServerRpc(RequireOwnership = false)]
+	void SetNetworkObjectActiveStatusServerRpc(NetworkObjectReference netObjRef, bool status)
+	{
+		if (netObjRef.TryGet(out NetworkObject netObj))
+		{
+			// ts disables the boxcollider component for every client using the ComponentController netcode component!
+			netObj.GetComponent<ComponentController>().SetEnabled(status);
+			//netObj.GetComponent<NetworkRigidbody>().isKinematic(!status);
+			//netObj.GetComponent<ComponentController>().SetEnabled<BoxCollider>(status);
+			//netObj.GetComponent<ComponentController>().SetEnabled<MeshRenderer>(status);
+			netObj.gameObject.transform.GetComponent<Rigidbody>().isKinematic = !status;
+		}
 	}
 }
