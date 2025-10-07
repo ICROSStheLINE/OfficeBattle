@@ -126,18 +126,26 @@ public class Punching : NetworkBehaviour
         if (dataOwner == rightArm && handDamageActive)
         {
 			Blocking collidedObjBlockingComponent = collidedObject.transform.root.GetComponent<Blocking>();
+			// Get directions
+            Vector3 defenderForward = collidedObject.transform.root.forward;
+            Vector3 toAttacker = (gameObject.transform.position - collidedObject.transform.root.position).normalized;
 
-			if (!collidedObjBlockingComponent.isBlocking.Value) // If opponent wasn't blocking
+            // Calculate angle between defender forward and attacker direction
+            float angleOffsetFromPlayer = Vector3.Angle(defenderForward, toAttacker); // 0 means target is facing the player dead-on
+
+			if (collidedObjBlockingComponent.isBlocking.Value && angleOffsetFromPlayer <= 30f)// If opponent was blocking
+			{
+				
+				handDamageActive = false;
+                collidedObjBlockingComponent.TriggerBlockPushbackServerRpc();
+			}
+			else // If opponent wasn't blocking
             {
 				// Deal damage to collidedObject's PlayerStats.currentHealth variable
 				collidedObject.transform.root.GetComponent<PlayerStats>().TakeDamageServerRpc();
 				handDamageActive = false;
             }
-			else // If opponent was blocking
-			{
-				handDamageActive = false;
-                collidedObjBlockingComponent.TriggerBlockPushbackServerRpc();
-			}
+			
         }
     }
 
