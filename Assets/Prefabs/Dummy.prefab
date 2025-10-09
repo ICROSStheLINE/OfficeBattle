@@ -223,11 +223,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3957971289471267861}
+  - component: {fileID: 3963637944711597259}
   - component: {fileID: 831761184647919505}
   - component: {fileID: 2746583612273056372}
   - component: {fileID: 1745797292439512266}
   - component: {fileID: 107676143365739200}
   - component: {fileID: 1072615826763170571}
+  - component: {fileID: -1690678120517976144}
   - component: {fileID: 2554353242967583553}
   - component: {fileID: 3898346428238077631}
   - component: {fileID: 2799111795783368672}
@@ -263,6 +265,31 @@ Transform:
   - {fileID: 6312828105603022827}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3963637944711597259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575624152626515262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3543716545
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 0
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!114 &831761184647919505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,11 +302,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50bf70cda0a16e448bc60da3aeba5694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 5
-  health: 0
+  health:
+    m_InternalValue: 5
   isRunning: 0
   canMove: 1
   canTurn: 1
+  playerNumber: 0
 --- !u!114 &2746583612273056372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -292,6 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 862771ad1151a064eb4133351575315a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   forwardMoveSpeed: 10
   backwardMoveSpeed: 5
   mouseSensitivity: 2
@@ -308,6 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fc36a691187e9c42b4eee46f3cc79f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   forwardStepDistance: 0
   backwardStepDistance: 0
 --- !u!114 &107676143365739200
@@ -322,12 +354,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a39007f879711a9449ef54e26428d245, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  penLocalPrefab: {fileID: 0}
   penContainer: {fileID: 7601542780142406458}
   torsoAimTarget: {fileID: 6893875462319844093}
   torsoTargetingRig: {fileID: 2079586404889431324}
   handPosTarget: {fileID: 8061122664194181357}
   handPosRig: {fileID: 1970974183439393175}
-  currentlyHeldObject: {fileID: 0}
 --- !u!114 &1072615826763170571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,8 +373,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34e6b5dd5228119448e69d4bdd9ff09d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   leftArm: {fileID: 0}
   rightArm: {fileID: 0}
+--- !u!114 &-1690678120517976144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575624152626515262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d74f3aa1a838b044ea4a625194773441, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  isBlocking:
+    m_InternalValue: 0
+  midBlockPushback: 0
 --- !u!95 &2554353242967583553
 Animator:
   serializedVersion: 7
@@ -2031,9 +2081,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fae27f510e3501d4391c54141075086f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageAmount: 2
-  heavyDamageAmount: 5
-  damageActive: 0
 --- !u!95 &1779683966301196742
 Animator:
   serializedVersion: 7

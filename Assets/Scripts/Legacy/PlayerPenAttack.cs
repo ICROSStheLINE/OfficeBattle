@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerPenAttack : MonoBehaviour
 {
-	PlayerPickupObj playerPickupObj;
+	/*PlayerPickupObj playerPickupObj;
 	Animator penContainerAnim;
 	[SerializeField] GameObject penContainer;
 	
@@ -81,5 +81,5 @@ public class PlayerPenAttack : MonoBehaviour
 		
 		playerPickupObj.currentlyHeldObject = null;
 		isMidThrow = false;
-	}
+	}*/
 }

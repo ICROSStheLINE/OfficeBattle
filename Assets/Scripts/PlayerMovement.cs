@@ -2,8 +2,9 @@ using Unity.VisualScripting;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : NetworkBehaviour
 {
     PlayerStats playerStats;
 
@@ -18,11 +19,22 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         playerStats = GetComponent<PlayerStats>();
+		
+		if (!IsOwner)
+        {
+            return;
+        }
+		
         SetupCamera();
     }
 
     void Update()
     {
+        if (!IsOwner)
+        {
+            return;
+        }
+
         if (playerStats.canMove)
             BasicMovement();
         if (playerStats.canTurn)

@@ -1,13 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class Blocking : MonoBehaviour
+public class Blocking : NetworkBehaviour
 {
 	Animator anim;
 	PlayerStats playerStats;
 	
-	[HideInInspector] public bool isBlocking = false;
+	//[HideInInspector] public bool isBlocking = false;
+	[HideInInspector] public NetworkVariable<bool> isBlocking = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 	[HideInInspector] public bool midBlockPushback = false;
 	
 	static readonly float blockPushbackAnimationDurationSpeedMultiplier = 1f;
@@ -21,18 +23,35 @@ public class Blocking : MonoBehaviour
 
     void Update()
     {
+		if (!IsOwner)
+		{
+			return;
+		}
+		
         if (Input.GetKey("e"))
 		{
-			isBlocking = true;
+			isBlocking.Value = true;
 			anim.SetBool("isBlocking", true);
 		}
 		else
 		{
-			isBlocking = false;
+			isBlocking.Value = false;
 			anim.SetBool("isBlocking", false);
 		}
     }
-	
+
+	[ServerRpc(RequireOwnership = false)]
+	public void TriggerBlockPushbackServerRpc()
+	{
+		TriggerBlockPushbackClientRpc();
+	}
+
+	[ClientRpc]
+	private void TriggerBlockPushbackClientRpc()
+	{
+		StartCoroutine("BlockPushback");
+	}
+
 	IEnumerator BlockPushback()
 	{
 		// Disable movement

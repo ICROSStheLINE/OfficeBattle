@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class MovementAnim : MonoBehaviour
+public class MovementAnim : NetworkBehaviour
 {
     PlayerStats playerStats;
     PlayerMovement playerMovement;
@@ -28,6 +29,11 @@ public class MovementAnim : MonoBehaviour
 
 	void LateUpdate()
 	{
+        if (!IsOwner)
+        {
+            return;
+        }
+
 		Vector3 localMove = playerMovement.GetLocalMovementDirectionNormalized();
 		
 		anim.SetBool("isRunning", playerStats.isRunning);
