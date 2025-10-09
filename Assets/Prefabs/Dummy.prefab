@@ -229,6 +229,7 @@ GameObject:
   - component: {fileID: 1745797292439512266}
   - component: {fileID: 107676143365739200}
   - component: {fileID: 1072615826763170571}
+  - component: {fileID: -1690678120517976144}
   - component: {fileID: 2554353242967583553}
   - component: {fileID: 3898346428238077631}
   - component: {fileID: 2799111795783368672}
@@ -303,7 +304,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   maxHealth: 5
-  health: 0
+  health:
+    m_InternalValue: 5
   isRunning: 0
   canMove: 1
   canTurn: 1
@@ -353,12 +355,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  penLocalPrefab: {fileID: 0}
   penContainer: {fileID: 7601542780142406458}
   torsoAimTarget: {fileID: 6893875462319844093}
   torsoTargetingRig: {fileID: 2079586404889431324}
   handPosTarget: {fileID: 8061122664194181357}
   handPosRig: {fileID: 1970974183439393175}
-  currentlyHeldObject: {fileID: 0}
 --- !u!114 &1072615826763170571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -374,6 +376,22 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   leftArm: {fileID: 0}
   rightArm: {fileID: 0}
+--- !u!114 &-1690678120517976144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 575624152626515262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d74f3aa1a838b044ea4a625194773441, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  isBlocking:
+    m_InternalValue: 0
+  midBlockPushback: 0
 --- !u!95 &2554353242967583553
 Animator:
   serializedVersion: 7
@@ -2063,9 +2081,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fae27f510e3501d4391c54141075086f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageAmount: 2
-  heavyDamageAmount: 5
-  damageActive: 0
 --- !u!95 &1779683966301196742
 Animator:
   serializedVersion: 7
