@@ -23,7 +23,18 @@ public class Punching : NetworkBehaviour
     float punchGap = 2;
 
     // -- 1 Step Running Punch
-    Vector2 oneStepRunningPunchTriggerRange = new Vector2(4f, 12f);
+    Vector2 oneStepRunningPunchTriggerRange = new Vector2(4f, 7.99f);
+	
+	// -- 1 Step Running Punch
+	static readonly float oneStepRunPunchAnimationDurationSpeedMultiplier = 1f;
+	static readonly float oneStepRunPunchAnimationDuration = 0.583f / oneStepRunPunchAnimationDurationSpeedMultiplier;
+	static readonly float oneStepRunPunchAnimationFrames = 14f;
+	static readonly float oneStepRunPunchDamageActivationFrame = 8f;
+	static readonly float oneStepRunPunchDamageDeactivationFrame = 12f;
+	static readonly float secondsUntilOneStepRunPunchDamageActivation = (oneStepRunPunchDamageActivationFrame / oneStepRunPunchAnimationFrames) * oneStepRunPunchAnimationDuration;
+	static readonly float secondsUntilOneStepRunPunchDamageDeactivation = (oneStepRunPunchDamageDeactivationFrame / oneStepRunPunchAnimationFrames) * oneStepRunPunchAnimationDuration;
+	static readonly float secondsBetweenOneStepRunPunchDamageActivationAndDeactivation = secondsUntilOneStepRunPunchDamageDeactivation - secondsUntilOneStepRunPunchDamageActivation;
+    static readonly float secondsBetweenOneStepRunPunchDamageDeactivationAndEnd = oneStepRunPunchAnimationDuration - secondsUntilOneStepRunPunchDamageDeactivation;
 
     // -- 2 Step Running Punch
     Vector2 twoStepRunningPunchTriggerRange = new Vector2(8f, 12f);
@@ -66,7 +77,6 @@ public class Punching : NetworkBehaviour
 
     void CheckForPunchInput()
     {
-
         if (Input.GetKey(KeyCode.Mouse0) && !isMidRunningPunch)
         {
             Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
@@ -80,7 +90,7 @@ public class Punching : NetworkBehaviour
                 }
                 if (playerStats.isRunning && hit.distance > oneStepRunningPunchTriggerRange.x && hit.distance < oneStepRunningPunchTriggerRange.y)
                 {
-                    // one step punch
+                    StartCoroutine(Punch("oneStepPunching", hit.transform.gameObject, secondsUntilOneStepRunPunchDamageActivation, secondsBetweenOneStepRunPunchDamageActivationAndDeactivation, secondsBetweenOneStepRunPunchDamageDeactivationAndEnd));
                 }
             }
         }
