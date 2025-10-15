@@ -106,11 +106,15 @@ public class Punching : NetworkBehaviour
 
         // -- Player will not blindly move forward for this attack.
         // -- Instead, player will linearly run towards where the opponent was when they were clicked on
-        // -- And the player will run towards that point until they reach 3 units' worth of distance from that position
+        // -- And the player will run towards that point until they reach 'punchGap' worth of distance from that position
         // -- (At default speed)
         playerMovementTarget = punchTarget.transform.position + (playerMovement.NormalizedDirectionTowardsTarget(punchTarget.transform.position, transform.position) * punchGap);
         constantPlayerMovement = default(Vector3);
         constantPlayerSpeed = default(float);
+        if (punchType == "oneStepPunching")
+        {
+            constantPlayerSpeed = 13f;
+        }
 
         yield return new WaitForSeconds(secondsUntilPunchDamageActivation);
         handDamageActive = true; // -- Turn on the damage hitboxes on the punch
