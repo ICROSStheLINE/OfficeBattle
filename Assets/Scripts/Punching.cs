@@ -50,6 +50,10 @@ public class Punching : NetworkBehaviour
     static readonly float secondsBetweentwoStepRunPunchDamageActivationAndDeactivation = secondsUntiltwoStepRunPunchDamageDeactivation - secondsUntiltwoStepRunPunchDamageActivation;
     static readonly float secondsBetweentwoStepRunPunchDamageDeactivationAndEnd = twoStepRunPunchAnimationDuration - secondsUntiltwoStepRunPunchDamageDeactivation;
 
+	// -- Parried Punch Animation Variables
+	static readonly float parriedPunchAnimationDurationSpeedMultiplier = 1f;
+	static readonly float parriedPunchAnimationDuration = 0.167f / parriedPunchAnimationDurationSpeedMultiplier;
+
     void Start()
     {
         anim = GetComponent<Animator>();
@@ -142,6 +146,7 @@ public class Punching : NetworkBehaviour
         playerStats.canMove = true;
         playerStats.canTurn = true;
 		punchTarget.transform.root.GetComponent<PlayerStats>().SetAsTargetServerRpc(false);
+		anim.SetBool("parriedPunch", false);
     }
 
     public void DetectedCollision(GameObject dataOwner, GameObject collidedObject)

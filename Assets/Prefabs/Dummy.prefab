@@ -306,6 +306,8 @@ MonoBehaviour:
   maxHealth: 5
   health:
     m_InternalValue: 5
+  isTargettedForAttack:
+    m_InternalValue: 0
   isRunning: 0
   canMove: 1
   canTurn: 1
@@ -376,6 +378,8 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   leftArm: {fileID: 0}
   rightArm: {fileID: 0}
+  handPosTarget: {fileID: 8061122664194181357}
+  handPosRig: {fileID: 1970974183439393175}
 --- !u!114 &-1690678120517976144
 MonoBehaviour:
   m_ObjectHideFlags: 0
