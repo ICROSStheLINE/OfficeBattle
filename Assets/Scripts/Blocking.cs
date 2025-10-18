@@ -33,7 +33,7 @@ public class Blocking : NetworkBehaviour
 			isBlocking.Value = true;
 			anim.SetBool("isBlocking", true);
 		}
-		else
+		else if (playerStats.isTargettedForAttack.Value == false)
 		{
 			isBlocking.Value = false;
 			anim.SetBool("isBlocking", false);

@@ -103,6 +103,7 @@ public class Punching : NetworkBehaviour
         anim.SetBool(punchType, true);
         playerStats.canMove = false;
         playerStats.canTurn = false;
+		punchTarget.transform.root.GetComponent<PlayerStats>().SetAsTargetServerRpc(true);
 
         // -- Player will not blindly move forward for this attack.
         // -- Instead, player will linearly run towards where the opponent was when they were clicked on
@@ -140,6 +141,7 @@ public class Punching : NetworkBehaviour
         isMidRunningPunch = false;
         playerStats.canMove = true;
         playerStats.canTurn = true;
+		punchTarget.transform.root.GetComponent<PlayerStats>().SetAsTargetServerRpc(false);
     }
 
     public void DetectedCollision(GameObject dataOwner, GameObject collidedObject)
@@ -148,15 +150,14 @@ public class Punching : NetworkBehaviour
         {
 			Blocking collidedObjBlockingComponent = collidedObject.transform.root.GetComponent<Blocking>();
 			// Get directions
-            //Vector3 defenderForward = collidedObject.transform.root.forward;
-            //Vector3 toAttacker = (gameObject.transform.position - collidedObject.transform.root.position).normalized;
+            Vector3 defenderForward = collidedObject.transform.root.forward;
+            Vector3 toAttacker = (gameObject.transform.position - collidedObject.transform.root.position).normalized;
 
             // Calculate angle between defender forward and attacker direction
-            //float angleOffsetFromPlayer = Vector3.Angle(defenderForward, toAttacker); // 0 means target is facing the player dead-on
+            float angleOffsetFromPlayer = Vector3.Angle(defenderForward, toAttacker); // 0 means target is facing the player dead-on
 
-			if (collidedObjBlockingComponent.isBlocking.Value)// If opponent was blocking // && angleOffsetFromPlayer <= 30f
+			if (collidedObjBlockingComponent.isBlocking.Value && angleOffsetFromPlayer <= 30f)// If opponent was blocking 
 			{
-				
 				handDamageActive = false;
                 collidedObjBlockingComponent.TriggerBlockPushbackServerRpc();
 			}
@@ -166,7 +167,7 @@ public class Punching : NetworkBehaviour
 				collidedObject.transform.root.GetComponent<PlayerStats>().TakeDamageServerRpc();
 				handDamageActive = false;
             }
-			
+			collidedObject.transform.root.GetComponent<PlayerStats>().SetAsTargetServerRpc(false);
         }
     }
 

@@ -6,6 +6,7 @@ public class PlayerStats : NetworkBehaviour
 	public float maxHealth = 5;
 	
 	public NetworkVariable<float> health = new NetworkVariable<float>(5f, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+	public NetworkVariable<bool> isTargettedForAttack = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 	
 	[HideInInspector] public bool isRunning = false;
 	[HideInInspector] public bool canMove = true;
@@ -50,6 +51,12 @@ public class PlayerStats : NetworkBehaviour
 		{
 			Die();
 		}
+	}
+	
+	[ServerRpc(RequireOwnership = false)]
+	public void SetAsTargetServerRpc(bool isTarget_)
+	{
+		isTargettedForAttack.Value = isTarget_;
 	}
 
 	void Die()
