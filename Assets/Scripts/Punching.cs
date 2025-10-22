@@ -160,8 +160,13 @@ public class Punching : NetworkBehaviour
 
             // Calculate angle between defender forward and attacker direction
             float angleOffsetFromPlayer = Vector3.Angle(defenderForward, toAttacker); // 0 means target is facing the player dead-on
-
-			if (collidedObjBlockingComponent.isBlocking.Value && angleOffsetFromPlayer <= 30f)// If opponent was blocking 
+			
+			if (collidedObjBlockingComponent.isParrying.Value && angleOffsetFromPlayer <= 30f)
+			{
+				handDamageActive = false;
+				collidedObjBlockingComponent.TriggerParryServerRpc();
+			}
+			else if (collidedObjBlockingComponent.isBlocking.Value && angleOffsetFromPlayer <= 30f)// If opponent was blocking 
 			{
 				handDamageActive = false;
                 collidedObjBlockingComponent.TriggerBlockPushbackServerRpc();

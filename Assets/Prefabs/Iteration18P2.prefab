@@ -1449,8 +1449,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   leftArm: {fileID: 7832949366337130068}
   rightArm: {fileID: 2922581131456489208}
-  handPosTarget: {fileID: 6159155527934933810}
-  handPosRig: {fileID: 1166831503498315953}
 --- !u!114 &6503115209250547631
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1464,9 +1462,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  torsoAimTarget: {fileID: 3258488113142291137}
+  torsoTargetingRig: {fileID: 4918971451506522624}
+  handPosTarget: {fileID: 6159155527934933810}
+  handPosRig: {fileID: 1166831503498315953}
   isBlocking:
     m_InternalValue: 0
   midBlockPushback: 0
+  isParrying:
+    m_InternalValue: 0
 --- !u!114 &5148015072133347180
 MonoBehaviour:
   m_ObjectHideFlags: 0
