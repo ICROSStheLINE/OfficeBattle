@@ -13,9 +13,6 @@ public class Blocking : NetworkBehaviour
 	[SerializeField] GameObject torsoAimTarget;
 	[SerializeField] GameObject torsoTargetingRig;
 	Rig torsoRig;
-	[SerializeField] GameObject handPosTarget;
-	[SerializeField] GameObject handPosRig;
-	Rig handRig;
 	[HideInInspector] public NetworkVariable<bool> isBlocking = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 	[HideInInspector] public bool midBlockPushback = false;
 	[HideInInspector] public NetworkVariable<bool> isParrying = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -32,7 +29,6 @@ public class Blocking : NetworkBehaviour
         anim = GetComponent<Animator>();
 		playerStats = GetComponent<PlayerStats>();
 		torsoRig = torsoTargetingRig.GetComponent<Rig>();
-		handRig = handPosRig.GetComponent<Rig>();
     }
 
     void Update()
@@ -60,15 +56,18 @@ public class Blocking : NetworkBehaviour
     }
 
 	[ServerRpc(RequireOwnership = false)]
-	public void TriggerParryServerRpc()
+	public void TriggerParryServerRpc(NetworkObjectReference parryTargetNetRef)
 	{
-		TriggerParryClientRpc();
+		TriggerParryClientRpc(parryTargetNetRef);
 	}
 
 	[ClientRpc]
-	private void TriggerParryClientRpc()
+	private void TriggerParryClientRpc(NetworkObjectReference parryTargetNetRef)
 	{
-		StartCoroutine("Parry");
+		if (parryTargetNetRef.TryGet(out NetworkObject netObj))
+		{
+			StartCoroutine(Parry(netObj.gameObject));
+		}
 	}
 
 	[ServerRpc(RequireOwnership = false)]
@@ -83,7 +82,7 @@ public class Blocking : NetworkBehaviour
 		StartCoroutine("BlockPushback");
 	}
 
-	IEnumerator Parry()
+	IEnumerator Parry(GameObject parryTarget)
 	{
 		if (IsOwner)
 		{
@@ -91,13 +90,33 @@ public class Blocking : NetworkBehaviour
 			playerStats.canTurn = false;
 			anim.SetBool("parry", true);
 		}
-		yield return new WaitForSeconds(parryAnimationDuration);
+		torsoAimTarget.transform.position = parryTarget.transform.position;
+
+		float parryAnimationDurationHalf = parryAnimationDuration / 2;
+		float elapsed = 0f;
+		while (elapsed < parryAnimationDurationHalf)
+		{
+			elapsed += Time.deltaTime;
+			float t = Mathf.Clamp01(elapsed / parryAnimationDurationHalf);
+
+			// SMOOTH INTERPOLATION PEAK
+			float smoothT = Mathf.SmoothStep(0f, 1f, t);
+
+			// Torso rigs
+			torsoAimTarget.transform.position = parryTarget.transform.position;
+			torsoRig.weight = smoothT;
+
+			yield return null;
+		}
+		torsoRig.weight = 1f;
+		yield return new WaitForSeconds(parryAnimationDurationHalf);
 		if (IsOwner)
 		{
 			playerStats.canMove = true;
 			playerStats.canTurn = true;
 			anim.SetBool("parry", false);
 		}
+		torsoRig.weight = 0;
 	}
 
 	IEnumerator ParryWindow()

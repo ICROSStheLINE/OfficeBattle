@@ -164,7 +164,7 @@ public class Punching : NetworkBehaviour
 			if (collidedObjBlockingComponent.isParrying.Value && angleOffsetFromPlayer <= 30f)
 			{
 				handDamageActive = false;
-				collidedObjBlockingComponent.TriggerParryServerRpc();
+				collidedObjBlockingComponent.TriggerParryServerRpc(new NetworkObjectReference(transform.gameObject.GetComponent<NetworkObject>()));
 			}
 			else if (collidedObjBlockingComponent.isBlocking.Value && angleOffsetFromPlayer <= 30f)// If opponent was blocking 
 			{
