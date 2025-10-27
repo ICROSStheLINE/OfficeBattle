@@ -62,7 +62,6 @@ public class PlayerPickupObj : NetworkBehaviour
 		{
 			if (!currentlyHoldingItem)
 			{
-				Debug.Log("Flag 0");
 				PickUpItem();
 			}
 		}
@@ -93,7 +92,6 @@ public class PlayerPickupObj : NetworkBehaviour
 	[ServerRpc(RequireOwnership = false)]
 	public void TriggerPickUpServerRpc(NetworkObjectReference netObjRef)
 	{
-		Debug.Log("Flag 1");
 		TriggerPickUpClientRpc(netObjRef);
 	}
 
@@ -101,8 +99,6 @@ public class PlayerPickupObj : NetworkBehaviour
 	[ClientRpc]
 	private void TriggerPickUpClientRpc(NetworkObjectReference netObjRef)
 	{
-		Debug.Log("Flag 2");
-
 		// - Note -
 		// variable.TryGet seems to be a built-in function that comes with all "NetworkObjectReference" variables.
 		// Its sole function is to get the NetworkObject component that is being referenced by "NetworkObjectReference".
@@ -118,7 +114,6 @@ public class PlayerPickupObj : NetworkBehaviour
 
 	IEnumerator HandlePickUpAnimation(NetworkObjectReference netObjRef, GameObject itemRef)
 	{
-		Debug.Log("Flag 3");
 		if (IsOwner)
 		{
 			anim.SetBool("isPickingUpObj", true);
@@ -126,7 +121,7 @@ public class PlayerPickupObj : NetworkBehaviour
 
 		// Hand and torso rig target objects
 		handPosTarget.transform.position = itemRef.transform.position;
-		torsoAimTarget.transform.position = itemRef.transform.position;
+		torsoAimTarget.transform.position = itemRef.transform.position + new Vector3(0,-1f,0);
 
 		// ───────────────────────────────
 		// Phase 1: Reach for the item
@@ -142,7 +137,7 @@ public class PlayerPickupObj : NetworkBehaviour
 			// Hand and Torso rigs
 			handPosTarget.transform.position = itemRef.transform.position;
 			handRig.weight = smoothT;
-			torsoAimTarget.transform.position = itemRef.transform.position;
+			torsoAimTarget.transform.position = itemRef.transform.position + new Vector3(0,-1f,0);
 			torsoRig.weight = smoothT;
 
 			yield return null;
@@ -193,7 +188,7 @@ public class PlayerPickupObj : NetworkBehaviour
 	void DropItem()
 	{
 		DropItemServerRpc();
-		currentlyHeldNetworkObjectReference.Value = default(NetworkObjectReference);
+		//currentlyHeldNetworkObjectReference.Value = default(NetworkObjectReference);
 	}
 
 	[ServerRpc(RequireOwnership = false)]

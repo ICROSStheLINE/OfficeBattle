@@ -21,6 +21,7 @@ public class Punching : NetworkBehaviour
     Vector3 playerMovementTarget = default(Vector3);
     bool isMidRunningPunch = false;
     float punchGap = 2;
+	Coroutine punchCoroutine;
 
     // -- 1 Step Running Punch
     Vector2 oneStepRunningPunchTriggerRange = new Vector2(4f, 7.99f);
@@ -52,7 +53,7 @@ public class Punching : NetworkBehaviour
 
 	// -- Parried Punch Animation Variables
 	static readonly float parriedPunchAnimationDurationSpeedMultiplier = 1f;
-	static readonly float parriedPunchAnimationDuration = 0.167f / parriedPunchAnimationDurationSpeedMultiplier;
+	static readonly float parriedPunchAnimationDuration = 0.375f / parriedPunchAnimationDurationSpeedMultiplier;
 
     void Start()
     {
@@ -90,11 +91,11 @@ public class Punching : NetworkBehaviour
             {
                 if (playerStats.isRunning && hit.distance > twoStepRunningPunchTriggerRange.x && hit.distance < twoStepRunningPunchTriggerRange.y)
                 {
-                    StartCoroutine(Punch("twoStepPunching", hit.transform.gameObject, secondsUntiltwoStepRunPunchDamageActivation, secondsBetweentwoStepRunPunchDamageActivationAndDeactivation, secondsBetweentwoStepRunPunchDamageDeactivationAndEnd));
+                    punchCoroutine = StartCoroutine(Punch("twoStepPunching", hit.transform.gameObject, secondsUntiltwoStepRunPunchDamageActivation, secondsBetweentwoStepRunPunchDamageActivationAndDeactivation, secondsBetweentwoStepRunPunchDamageDeactivationAndEnd));
                 }
                 if (playerStats.isRunning && hit.distance > oneStepRunningPunchTriggerRange.x && hit.distance < oneStepRunningPunchTriggerRange.y)
                 {
-                    StartCoroutine(Punch("oneStepPunching", hit.transform.gameObject, secondsUntilOneStepRunPunchDamageActivation, secondsBetweenOneStepRunPunchDamageActivationAndDeactivation, secondsBetweenOneStepRunPunchDamageDeactivationAndEnd));
+                    punchCoroutine = StartCoroutine(Punch("oneStepPunching", hit.transform.gameObject, secondsUntilOneStepRunPunchDamageActivation, secondsBetweenOneStepRunPunchDamageActivationAndDeactivation, secondsBetweenOneStepRunPunchDamageDeactivationAndEnd));
                 }
             }
         }
@@ -118,7 +119,7 @@ public class Punching : NetworkBehaviour
         constantPlayerSpeed = default(float);
         if (punchType == "oneStepPunching")
         {
-            constantPlayerSpeed = 13f;
+            constantPlayerSpeed = 15f;
         }
 
         yield return new WaitForSeconds(secondsUntilPunchDamageActivation);
@@ -146,7 +147,6 @@ public class Punching : NetworkBehaviour
         playerStats.canMove = true;
         playerStats.canTurn = true;
 		punchTarget.transform.root.GetComponent<PlayerStats>().SetAsTargetServerRpc(false);
-		anim.SetBool("parriedPunch", false);
     }
 
     public void DetectedCollision(GameObject dataOwner, GameObject collidedObject)
@@ -164,6 +164,9 @@ public class Punching : NetworkBehaviour
 			if (collidedObjBlockingComponent.isParrying.Value && angleOffsetFromPlayer <= 30f)
 			{
 				handDamageActive = false;
+				StartCoroutine("ParriedPunch");
+				
+				collidedObject.transform.root.GetComponent<PlayerStats>().SetAsTargetServerRpc(false);
 				collidedObjBlockingComponent.TriggerParryServerRpc(new NetworkObjectReference(transform.gameObject.GetComponent<NetworkObject>()));
 			}
 			else if (collidedObjBlockingComponent.isBlocking.Value && angleOffsetFromPlayer <= 30f)// If opponent was blocking 
@@ -180,6 +183,28 @@ public class Punching : NetworkBehaviour
 			collidedObject.transform.root.GetComponent<PlayerStats>().SetAsTargetServerRpc(false);
         }
     }
+	
+	IEnumerator ParriedPunch()
+	{
+		StopCoroutine(punchCoroutine);
+		// -- No more custom movement
+		playerStats.canMove = false;
+        playerStats.canTurn = false;
+		playerMovementTarget = default(Vector3);
+		constantPlayerMovement = default(Vector3);
+		constantPlayerSpeed = default(float);
+		isMidRunningPunch = false;
+		anim.SetBool("parriedPunch", true);
+		
+		yield return new WaitForSeconds(parriedPunchAnimationDuration);
+		
+		anim.SetBool("twoStepPunching", false);
+		anim.SetBool("oneStepPunching", false);
+		anim.SetBool("parriedPunch", false);
+		
+		playerStats.canMove = true;
+        playerStats.canTurn = true;
+	}
 
     bool IsArm(GameObject limbInQuestion)
     {

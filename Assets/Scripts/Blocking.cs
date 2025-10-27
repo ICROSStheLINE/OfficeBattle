@@ -10,6 +10,7 @@ public class Blocking : NetworkBehaviour
 	Animator anim;
 	PlayerStats playerStats;
 
+	[SerializeField] GameObject torsoBone;
 	[SerializeField] GameObject torsoAimTarget;
 	[SerializeField] GameObject torsoTargetingRig;
 	Rig torsoRig;
@@ -17,6 +18,7 @@ public class Blocking : NetworkBehaviour
 	[HideInInspector] public bool midBlockPushback = false;
 	[HideInInspector] public NetworkVariable<bool> isParrying = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 	bool alreadyParried = false;
+	[SerializeField] bool isDummy;
 
 	static readonly float blockPushbackAnimationDurationSpeedMultiplier = 1f;
     static readonly float blockPushbackAnimationDuration = 0.583f / blockPushbackAnimationDurationSpeedMultiplier;
@@ -36,18 +38,34 @@ public class Blocking : NetworkBehaviour
 		if (!IsOwner) {return;}
 		if (playerStats.isTargettedForAttack.Value == false) {alreadyParried = false;}
 
+		if (Input.GetKeyDown("r") && !alreadyParried && isDummy)
+		{
+			StartCoroutine("ParryWindow");
+			alreadyParried = true;
+		}
+		if (Input.GetKey("r") && isDummy)
+		{
+			isBlocking.Value = true;
+			anim.SetBool("isBlocking", true);
+		}
+		else if (!Input.GetKey("r") && isDummy)
+		{
+			StopCoroutine("ParryWindow");
+			isBlocking.Value = false;
+			anim.SetBool("isBlocking", false);
+		}
+
 		if (Input.GetKeyDown("e") && !alreadyParried)
 		{
 			StartCoroutine("ParryWindow");
 			alreadyParried = true;
 		}
-
         if (Input.GetKey("e"))
 		{
 			isBlocking.Value = true;
 			anim.SetBool("isBlocking", true);
 		}
-		else if (!Input.GetKey("e"))
+		else if (!Input.GetKey("e") && !isDummy)
 		{
 			StopCoroutine("ParryWindow");
 			isBlocking.Value = false;
@@ -103,7 +121,7 @@ public class Blocking : NetworkBehaviour
 			float smoothT = Mathf.SmoothStep(0f, 1f, t);
 
 			// Torso rigs
-			torsoAimTarget.transform.position = parryTarget.transform.position;
+			torsoAimTarget.transform.position = new Vector3(parryTarget.transform.position.x, torsoBone.transform.position.y, parryTarget.transform.position.z);
 			torsoRig.weight = smoothT;
 
 			yield return null;
@@ -122,7 +140,7 @@ public class Blocking : NetworkBehaviour
 	IEnumerator ParryWindow()
 	{
 		isParrying.Value = true;
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(2.5f); // TODO: Change this to a reasonable number after testing
 		isParrying.Value = false;
 	}
 

@@ -378,8 +378,6 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   leftArm: {fileID: 0}
   rightArm: {fileID: 0}
-  handPosTarget: {fileID: 8061122664194181357}
-  handPosRig: {fileID: 1970974183439393175}
 --- !u!114 &-1690678120517976144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -393,9 +391,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  torsoBone: {fileID: 4456187840102892967}
+  torsoAimTarget: {fileID: 6893875462319844093}
+  torsoTargetingRig: {fileID: 2079586404889431324}
   isBlocking:
     m_InternalValue: 0
   midBlockPushback: 0
+  isParrying:
+    m_InternalValue: 0
+  isDummy: 1
 --- !u!95 &2554353242967583553
 Animator:
   serializedVersion: 7
@@ -743,7 +747,7 @@ MonoBehaviour:
       m_Item7:
         transform: {fileID: 0}
         weight: 0
-    m_Offset: {x: 39.23, y: 0, z: 0}
+    m_Offset: {x: 0, y: 0, z: 0}
     m_MinLimit: -100
     m_MaxLimit: 100
     m_AimAxis: 4
