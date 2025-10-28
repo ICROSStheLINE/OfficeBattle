@@ -38,29 +38,14 @@ public class Blocking : NetworkBehaviour
 		if (!IsOwner) {return;}
 		if (playerStats.isTargettedForAttack.Value == false) {alreadyParried = false;}
 
-		if (Input.GetKeyDown("r") && !alreadyParried && isDummy)
-		{
-			StartCoroutine("ParryWindow");
-			alreadyParried = true;
-		}
-		if (Input.GetKey("r") && isDummy)
-		{
-			isBlocking.Value = true;
-			anim.SetBool("isBlocking", true);
-		}
-		else if (!Input.GetKey("r") && isDummy)
-		{
-			StopCoroutine("ParryWindow");
-			isBlocking.Value = false;
-			anim.SetBool("isBlocking", false);
-		}
+		CheckDummyBlockInput();
 
-		if (Input.GetKeyDown("e") && !alreadyParried)
+		if (Input.GetKeyDown("e") && !alreadyParried && !isDummy)
 		{
 			StartCoroutine("ParryWindow");
 			alreadyParried = true;
 		}
-        if (Input.GetKey("e"))
+        if (Input.GetKey("e") && !isDummy)
 		{
 			isBlocking.Value = true;
 			anim.SetBool("isBlocking", true);
@@ -68,6 +53,7 @@ public class Blocking : NetworkBehaviour
 		else if (!Input.GetKey("e") && !isDummy)
 		{
 			StopCoroutine("ParryWindow");
+			isParrying.Value = false;
 			isBlocking.Value = false;
 			anim.SetBool("isBlocking", false);
 		}
@@ -163,6 +149,27 @@ public class Blocking : NetworkBehaviour
 			playerStats.canMove = true;
 			playerStats.canTurn = true;
 			anim.SetBool("blockingPushback", false);
+		}
+	}
+	
+	void CheckDummyBlockInput()
+	{
+		if (Input.GetKeyDown("r") && !alreadyParried && isDummy)
+		{
+			StartCoroutine("ParryWindow");
+			alreadyParried = true;
+		}
+		if (Input.GetKey("r") && isDummy)
+		{
+			isBlocking.Value = true;
+			anim.SetBool("isBlocking", true);
+		}
+		else if (!Input.GetKey("r") && isDummy)
+		{
+			StopCoroutine("ParryWindow");
+			isParrying.Value = false;
+			isBlocking.Value = false;
+			anim.SetBool("isBlocking", false);
 		}
 	}
 }

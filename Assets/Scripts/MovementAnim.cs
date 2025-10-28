@@ -41,4 +41,12 @@ public class MovementAnim : NetworkBehaviour
 		anim.SetFloat("runDirectionX", localMove.x, 0.1f, Time.deltaTime); // for strafing left and right
 		anim.SetFloat("runDirectionY", localMove.z, 0.1f, Time.deltaTime); // for running forward and backwards
     }
+	
+	public void SetToStanding()
+	{
+		playerMovement.moveDirection = Vector3.zero;
+		anim.SetBool("isRunning", false);
+		anim.SetFloat("runDirectionX", 0f); // for strafing left and right
+		anim.SetFloat("runDirectionY", 0f); // for running forward and backwards
+	}
 }

@@ -8,6 +8,7 @@ public class Punching : NetworkBehaviour
     PlayerStats playerStats;
     Animator anim;
     PlayerMovement playerMovement;
+	MovementAnim movementAnim;
     [SerializeField] GameObject leftArm;
     [SerializeField] GameObject rightArm;
 
@@ -60,6 +61,7 @@ public class Punching : NetworkBehaviour
         anim = GetComponent<Animator>();
         playerStats = GetComponent<PlayerStats>();
         playerMovement = GetComponent<PlayerMovement>();
+		movementAnim = GetComponent<MovementAnim>();
 		if (humanTouchLayerMask == default(LayerMask))
 		{
 			humanTouchLayerMask = LayerMask.GetMask("DummyTrigger");
@@ -137,6 +139,7 @@ public class Punching : NetworkBehaviour
         yield return new WaitForSeconds(secondsBetweenPunchDamageDeactivationAndEnd);
 
         // -- No more custom movement
+		movementAnim.SetToStanding();
         playerMovementTarget = default(Vector3);
         constantPlayerMovement = default(Vector3);
         constantPlayerSpeed = default(float);
@@ -190,6 +193,7 @@ public class Punching : NetworkBehaviour
 		// -- No more custom movement
 		playerStats.canMove = false;
         playerStats.canTurn = false;
+		movementAnim.SetToStanding();
 		playerMovementTarget = default(Vector3);
 		constantPlayerMovement = default(Vector3);
 		constantPlayerSpeed = default(float);
