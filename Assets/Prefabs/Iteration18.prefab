@@ -1580,6 +1580,7 @@ MonoBehaviour:
   midBlockPushback: 0
   isParrying:
     m_InternalValue: 0
+  isDummy: 0
 --- !u!114 &5148015072133347180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1593,6 +1594,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  HeadBone: {fileID: 5921804438544766068}
 --- !u!114 &1679315968396410311
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -21,13 +21,17 @@ public class Punching : NetworkBehaviour
     float constantPlayerSpeed = default(float);
     Vector3 playerMovementTarget = default(Vector3);
     bool isMidRunningPunch = false;
+	bool isMidStandingPunch = false;
     float punchGap = 2;
 	Coroutine punchCoroutine;
 
+	// -- Combat Punch 1
+	static readonly float combatPunchOneAnimationDurationSpeedMultiplier = 1f;
+	static readonly float combatPunchOneAnimationDuration = 0.25f;
+	static readonly float combatPunchAnimationFrames = 6f;
+
     // -- 1 Step Running Punch
     Vector2 oneStepRunningPunchTriggerRange = new Vector2(4f, 7.99f);
-	
-	// -- 1 Step Running Punch
 	static readonly float oneStepRunPunchAnimationDurationSpeedMultiplier = 1f;
 	static readonly float oneStepRunPunchAnimationDuration = 0.583f / oneStepRunPunchAnimationDurationSpeedMultiplier;
 	static readonly float oneStepRunPunchAnimationFrames = 14f;
@@ -40,8 +44,6 @@ public class Punching : NetworkBehaviour
 
     // -- 2 Step Running Punch
     Vector2 twoStepRunningPunchTriggerRange = new Vector2(8f, 12f);
-
-    // -- 2 Step Running Punch Animation Variables
     static readonly float twoStepRunPunchAnimationDurationSpeedMultiplier = 1f;
     static readonly float twoStepRunPunchAnimationDuration = 1.083f / twoStepRunPunchAnimationDurationSpeedMultiplier;
     static readonly float twoStepRunPunchAnimationFrames = 26f;
@@ -84,7 +86,7 @@ public class Punching : NetworkBehaviour
 
     void CheckForPunchInput()
     {
-        if (Input.GetKey(KeyCode.Mouse0) && !isMidRunningPunch)
+        if (Input.GetKey(KeyCode.Mouse0) && !isMidRunningPunch && !isMidStandingPunch)
         {
             Ray ray = new Ray(Camera.main.transform.position, Camera.main.transform.forward);
             RaycastHit hit;
